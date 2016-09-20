@@ -1,0 +1,1322 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for js\minute-core.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">js/</a> minute-core.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">86.67% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>299/345</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">71.62% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>164/229</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">87.5% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>56/64</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.72% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>280/302</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">1305×</span>
+<span class="cline-any cline-yes">1305×</span>
+<span class="cline-any cline-yes">881×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">424×</span>
+<span class="cline-any cline-yes">424×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">229×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">227×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">424×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">424×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">424×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">284×</span>
+<span class="cline-any cline-yes">284×</span>
+<span class="cline-any cline-yes">284×</span>
+<span class="cline-any cline-yes">284×</span>
+<span class="cline-any cline-yes">284×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">283×</span>
+<span class="cline-any cline-yes">805×</span>
+<span class="cline-any cline-yes">805×</span>
+<span class="cline-any cline-yes">805×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">805×</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">761×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">805×</span>
+<span class="cline-any cline-yes">445×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">283×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">270×</span>
+<span class="cline-any cline-yes">270×</span>
+<span class="cline-any cline-yes">418×</span>
+<span class="cline-any cline-yes">418×</span>
+<span class="cline-any cline-yes">418×</span>
+<span class="cline-any cline-yes">414×</span>
+<span class="cline-any cline-yes">414×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">270×</span>
+<span class="cline-any cline-yes">270×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">40×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-yes">251×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path="../../_all.d.ts"/&gt;
+var __extends = (this &amp;&amp; this.__extends) || function (d, b) {
+    for (var p in b) <span class="cstat-no" title="statement not covered" >if (b.hasOwnProperty(p)) <span class="cstat-no" title="statement not covered" >d[p] = b[p];</span></span>
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? <span class="branch-0 cbranch-no" title="branch not covered" >Object.create(b) </span>: (__.prototype = b.prototype, new __());
+};
+var Minute;
+(function (Minute) {
+    Minute.Models = {};
+    Minute.Loader = function () {
+    };
+    var Item = (function () {
+        function Item(parent, attrs) {
+            var _this = this;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (parent === void 0) { <span class="cstat-no" title="statement not covered" >parent = null; </span>}
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (attrs === void 0) { <span class="cstat-no" title="statement not covered" >attrs = []; </span>}
+            this.parent = parent;
+            this.attrs = attrs;
+            this.lastSave = '{}';
+            this.data = { serialized: {}, dump: {} };
+            this.attr = function (name, value) {
+                if (value === void 0) { value = void 0; }
+                if (value == void 0) {
+                    return _this[name];
+                }
+                else <span class="missing-if-branch" title="else path not taken" >E</span>if (_this.attrs.indexOf(name) !== -1) {
+                    if (typeof value === 'string') {
+                        if (/_json$/.test(name)) {
+                            try {
+                                value = value ? JSON.parse(value) : <span class="branch-1 cbranch-no" title="branch not covered" >{};</span>
+                            }
+                            catch (e) {
+<span class="cstat-no" title="statement not covered" >                                console.log("Broken Json: ", value, e);</span>
+<span class="cstat-no" title="statement not covered" >                                value = {};</span>
+                            }
+                        }
+                        else if (/_at$/.test(name) &amp;&amp; (isNaN(Date.parse((value || <span class="branch-1 cbranch-no" title="branch not covered" >'')</span>.replace(/-/g, '/'))) === false)) {
+                            value = new Date(Date.parse((value || <span class="branch-1 cbranch-no" title="branch not covered" >'')</span>.replace(/-/g, '/') + " +0"));
+                        }
+                        else if (value === 'true' || value === 'false') {
+                            value = value === 'true';
+                        }
+                    }
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (_this[name] &amp;&amp; /_json$/.test(name) &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >value !== null)</span> {
+<span class="cstat-no" title="statement not covered" >                        Minute.Utils.copy(_this[name], value);</span>
+                    }
+                    else {
+                        _this[name] = value;
+                    }
+                    return _this;
+                }
+            };
+            this.removeAttr = function (name) {
+                delete (_this[name]);
+                return _this;
+            };
+            this.serialize = function (ignoreUndefined, ignoreJoinKey) {
+                if (ignoreUndefined === void 0) { ignoreUndefined = false; }
+                if (ignoreJoinKey === void 0) { ignoreJoinKey = false; }
+                var serialized = {};
+                var parent = _this.parent;
+                if (parent &amp;&amp; !ignoreJoinKey) {
+                    var joinKey = parent.joinPk;
+                    var parentOfParent = parent.parent;
+                    if (joinKey &amp;&amp; parentOfParent &amp;&amp; !_this.attr(joinKey)) {
+                        var joinKeyVal = parentOfParent.attr(joinKey);
+                        if (joinKeyVal) {
+                            _this.attr(joinKey, joinKeyVal);
+                        }
+                        else {
+                            throw new Error("Before calling serialized() on children, please call save() on the parent node first.");
+                        }
+                    }
+                }
+                for (var _i = 0, _a = _this.attrs; _i &lt; _a.length; _i++) {
+                    var key = _a[_i];
+                    var value = _this.attr(key);
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (value instanceof Date &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >/_at$/.test(key))</span> {
+<span class="cstat-no" title="statement not covered" >                        value = value.toISOString().slice(0, 19).replace('T', ' ');</span>
+                    }
+                    else if (typeof value !== 'string' &amp;&amp; /_json$/.test(key)) {
+                        value = JSON.stringify(value, function (key, val) { return /^[_$]/.test(key) ? <span class="branch-0 cbranch-no" title="branch not covered" >undefined </span>: val; });
+                    }
+                    else <span class="missing-if-branch" title="if path not taken" >I</span>if (value === true || value === false) {
+<span class="cstat-no" title="statement not covered" >                        value = value ? 'true' : 'false';</span>
+                    }
+                    if (!ignoreUndefined || (value !== void 0)) {
+                        serialized[key] = value;
+                    }
+                }
+                return Minute.Utils.copy(_this.data.serialized, serialized);
+            };
+            this.load = function (data) {
+                var loaded = false;
+                for (var key in data) {
+                    <span class="missing-if-branch" title="else path not taken" >E</span>if (data.hasOwnProperty(key)) {
+                        var val = data[key];
+                        if (typeof val !== 'object') {
+                            _this.attr(key, val);
+                            loaded = true;
+                        }
+                        else <span class="missing-if-branch" title="else path not taken" >E</span>if (_this.hasOwnProperty(key)) {
+                            <span class="missing-if-branch" title="else path not taken" >E</span>if ((_this[key] instanceof Items) || (_this[key] instanceof Item)) {
+                                _this[key].load(val);
+                            }
+                        }
+                    }
+                }
+                _this.lastSave = JSON.stringify(_this.serialize(true, true));
+                return _this;
+            };
+            this.dirty = function () {
+                return JSON.stringify(_this.serialize(true, true)) != _this.lastSave;
+            };
+            this.clone = function () {
+                var pk = _this.parent ? _this.parent.pk : <span class="branch-1 cbranch-no" title="branch not covered" >'';</span>
+                var data = {};
+                _this.attrs.forEach(function (attr) {
+                    if ((attr != 'created_at') &amp;&amp; (attr != pk)) {
+                        var v = _this.attr(attr);
+                        data[attr] = typeof v === 'string' ? v : (v ? JSON.stringify(v) : <span class="branch-1 cbranch-no" title="branch not covered" >'')</span>;
+                    }
+                });
+                return _this.parent.create(data);
+            };
+            this.save = function (successMsg, failureMsg) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (successMsg === void 0) { <span class="cstat-no" title="statement not covered" >successMsg = void 0; </span>}
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (failureMsg === void 0) { <span class="cstat-no" title="statement not covered" >failureMsg = void 0; </span>}
+                var parent = _this.getParentOrDie('save');
+                return parent.saveAll(successMsg, failureMsg, _this);
+            };
+            this.remove = function (successMsg, failureMsg) {
+                if (successMsg === void 0) { successMsg = void 0; }
+                if (failureMsg === void 0) { failureMsg = void 0; }
+                var parent = _this.getParentOrDie('remove');
+                return parent.removeAll(successMsg, failureMsg, _this);
+            };
+            this.removeConfirm = function (confirmTitle, confirmText, successMsg, failureMsg) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (confirmTitle === void 0) { <span class="cstat-no" title="statement not covered" >confirmTitle = void 0; </span>}
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (confirmText === void 0) { <span class="cstat-no" title="statement not covered" >confirmText = void 0; </span>}
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (successMsg === void 0) { <span class="cstat-no" title="statement not covered" >successMsg = void 0; </span>}
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (failureMsg === void 0) { <span class="cstat-no" title="statement not covered" >failureMsg = void 0; </span>}
+                var parent = _this.getParentOrDie('removeConfirm');
+                return parent.removeConfirmAll(confirmTitle, confirmText, successMsg, failureMsg, _this);
+            };
+            this.reload = function () {
+                var parent = _this.getParentOrDie('reload');
+                return parent.reloadAll(true, _this);
+            };
+            this.dump = function () {
+                var result = _this.serialize(true, true);
+                for (var i in _this) {
+                    if (_this.hasOwnProperty(i) &amp;&amp; (i != 'parent') &amp;&amp; ((_this[i] instanceof Item) || (_this[i] instanceof Items))) {
+                        result[i] = _this[i].dump();
+                    }
+                }
+                return Minute.Utils.copy(_this.data.dump, result);
+            };
+            this.getParentOrDie = function (caller) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (!_this.parent) {
+<span class="cstat-no" title="statement not covered" >                    throw new Error('Item must have a parent for ' + caller);</span>
+                }
+                return _this.parent;
+            };
+        }
+        return Item;
+    }());
+    Minute.Item = Item;
+    var Items = (function (_super) {
+        __extends(Items, _super);
+        function Items(itemType, parent, alias, modelClass, pk, joinPk) {
+            var _this = this;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (parent === void 0) { <span class="cstat-no" title="statement not covered" >parent = null; </span>}
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (alias === void 0) { <span class="cstat-no" title="statement not covered" >alias = ''; </span>}
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (modelClass === void 0) { <span class="cstat-no" title="statement not covered" >modelClass = ''; </span>}
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (pk === void 0) { <span class="cstat-no" title="statement not covered" >pk = ''; </span>}
+            if (joinPk === void 0) { joinPk = ''; }
+            _super.call(this);
+            this.itemType = itemType;
+            this.parent = parent;
+            this.alias = alias;
+            this.modelClass = modelClass;
+            this.pk = pk;
+            this.joinPk = joinPk;
+            this.metadata = { offset: 0, total: 0, limit: 0 };
+            this.data = { serialized: {}, dump: [] };
+            this.create = function (data) {
+                if (data === void 0) { data = {}; }
+                var item = new _this.itemType(_this);
+                _this.push(item);
+                item.load(data);
+                return item;
+            };
+            this.load = function (data) {
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (data) {
+                    _this.setMetadata(data.metadata || {}, false);
+                    for (var _i = 0, _a = data.items || []; _i &lt; _a.length; _i++) {
+                        var item = _a[_i];
+                        _this.create().load(item);
+                    }
+                }
+                return _this;
+            };
+            this.saveAll = function (successMsg, failureMsg) {
+                if (successMsg === void 0) { successMsg = void 0; }
+                if (failureMsg === void 0) { failureMsg = void 0; }
+                var selection = [];
+                for (var _i = 2; _i &lt; arguments.length; _i++) {
+                    selection[_i - 2] = arguments[_i];
+                }
+                var event = new Minute.EmitterEx(_this);
+                var items = selection.length &gt; 0 ? selection : _this.toArray();
+                var unsaved = _this.filterItemsBy(items, _this.pk, true);
+                var promise = new Promise(function (resolve, reject) {
+                    event.once(Minute.MINUTE_SAVE_PASS, function (event) {
+                        var updates = [];
+                        if (event.args[0] &amp;&amp; event.args[0].hasOwnProperty('items')) {
+                            updates = event.args[0].items;
+                            <span class="missing-if-branch" title="else path not taken" >E</span>if (updates.length === items.length) {
+                                for (var i = 0; i &lt; items.length; i++) {
+                                    items[i].load(updates[i]);
+                                }
+                            }
+                            else {
+<span class="cstat-no" title="statement not covered" >                                throw new Error("Update length should always match item length");</span>
+                            }
+                        }
+                        for (var _i = 0, _a = unsaved || []; _i &lt; _a.length; _i++) {
+                            var item = _a[_i];
+                            item.reload();
+                            _this.metadata.total++;
+                        }
+                        resolve({ self: _this, updates: updates, successMsg: successMsg });
+                    });
+                    event.once(Minute.MINUTE_SAVE_FAIL, <span class="fstat-no" title="function not covered" >function (event) {</span>
+<span class="cstat-no" title="statement not covered" >                        reject({ self: _this, failureMsg: failureMsg, info: event.args });</span>
+                    });
+                });
+                event.dispatch(Minute.MINUTE_SAVE, { successMsg: successMsg, failureMsg: failureMsg, items: items });
+                return promise;
+            };
+            this.removeAll = function (successMsg, failureMsg) {
+                if (successMsg === void 0) { successMsg = void 0; }
+                if (failureMsg === void 0) { failureMsg = void 0; }
+                var selection = [];
+                for (var _i = 2; _i &lt; arguments.length; _i++) {
+                    selection[_i - 2] = arguments[_i];
+                }
+                var event = new Minute.EmitterEx(_this);
+                var items = selection.length &gt; 0 ? selection : _this.toArray();
+                var saved = _this.filterItemsBy(items, _this.pk, false);
+                var promise = new Promise(function (resolve, reject) {
+                    event.once(Minute.MINUTE_REMOVE_PASS, function (event) {
+                        var updates = [];
+                        if (event.args[0] &amp;&amp; event.args[0].hasOwnProperty('items')) {
+                            updates = event.args[0].items;
+                            <span class="missing-if-branch" title="else path not taken" >E</span>if (updates.length === saved.length) {
+                                for (var i = items.length - 1; i &gt;= 0; i--) {
+                                    _this.splice(_this.indexOf(items[i]), 1);
+                                }
+                            }
+                            else {
+<span class="cstat-no" title="statement not covered" >                                throw new Error("Update length should always match item length");</span>
+                            }
+                        }
+                        resolve({ self: _this, updates: updates, successMsg: successMsg });
+                    });
+                    event.once(Minute.MINUTE_REMOVE_FAIL, <span class="fstat-no" title="function not covered" >function (event) {</span>
+<span class="cstat-no" title="statement not covered" >                        reject({ self: _this, failureMsg: failureMsg, info: event.args });</span>
+                    });
+                });
+                event.dispatch(Minute.MINUTE_REMOVE, { successMsg: successMsg, failureMsg: failureMsg, items: saved });
+                return promise;
+            };
+            this.removeConfirmAll = function (confirmTitle, confirmText, successMsg, failureMsg) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (confirmTitle === void 0) { <span class="cstat-no" title="statement not covered" >confirmTitle = void 0; </span>}
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (confirmText === void 0) { <span class="cstat-no" title="statement not covered" >confirmText = void 0; </span>}
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (successMsg === void 0) { <span class="cstat-no" title="statement not covered" >successMsg = void 0; </span>}
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (failureMsg === void 0) { <span class="cstat-no" title="statement not covered" >failureMsg = void 0; </span>}
+                var selection = [];
+                for (var _i = 4; _i &lt; arguments.length; _i++) {
+                    selection[_i - 4] = arguments[_i];
+                }
+                var event = new Minute.EmitterEx(_this);
+                var items = selection.length &gt; 0 ? selection : <span class="branch-1 cbranch-no" title="branch not covered" >_this.toArray();</span>
+                var promise = new Promise(function (resolve, reject) {
+                    event.once(Minute.MINUTE_REMOVE_CONFIRM_PASS, function () {
+                        var removePromise = _this.removeAll.apply(_this, [successMsg, failureMsg].concat(items));
+                        removePromise.then(resolve, reject);
+                    });
+                    event.once(Minute.MINUTE_REMOVE_CONFIRM_FAIL, <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                        reject();</span>
+                    });
+                });
+                event.dispatch(Minute.MINUTE_REMOVE_CONFIRM, { confirmTitle: confirmTitle, confirmText: confirmText });
+                return promise;
+            };
+            this.reloadAll = function (replace, singleItem) {
+                if (singleItem === void 0) { singleItem = null; }
+                var event = new Minute.EmitterEx(_this);
+                var start = singleItem || _this.parent;
+                var metadataChain = Minute.Utils.keyValue(_this.alias, _this.metadata);
+                while (start &amp;&amp; start.parent) {
+                    metadataChain[start.parent.alias] = { pk: start.attr(start.parent.pk) };
+                    start = start.parent.parent;
+                }
+                var promise = new Promise(function (resolve, reject) {
+                    event.once(Minute.MINUTE_RELOAD_PASS, function (event) {
+                        var updates = [];
+                        if (singleItem &amp;&amp; (event.args[0].length &gt; 0)) {
+                            singleItem.load(event.args[0][0]);
+                        }
+                        else <span class="missing-if-branch" title="else path not taken" >E</span>if (event.args[0] &amp;&amp; event.args[0].hasOwnProperty('items')) {
+                            updates = event.args[0];
+                            <span class="missing-if-branch" title="else path not taken" >E</span>if (replace === true) {
+                                _this.splice(0, _this.length);
+                            }
+                            _this.load(updates);
+                        }
+                        resolve({ self: _this, updates: updates });
+                    });
+                    event.once(Minute.MINUTE_RELOAD_FAIL, <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                        reject();</span>
+                    });
+                });
+                event.dispatch(Minute.MINUTE_RELOAD, { metadata: metadataChain });
+                return promise;
+            };
+            this.getOffset = function () {
+                return _this.metadata.offset || <span class="branch-1 cbranch-no" title="branch not covered" >0;</span>
+            };
+            this.getTotalItems = function () {
+                return _this.metadata.total || <span class="branch-1 cbranch-no" title="branch not covered" >0;</span>
+            };
+            this.getItemsPerPage = function () {
+                return _this.metadata.limit || <span class="branch-1 cbranch-no" title="branch not covered" >1;</span>
+            };
+            this.getCurrentPage = function () {
+                return 1 + Math.floor(_this.getOffset() / _this.getItemsPerPage());
+            };
+            this.getTotalPages = function () {
+                return Math.ceil(_this.getTotalItems() / _this.getItemsPerPage());
+            };
+            this.getOrder = function () {
+                return (_this.metadata.order || <span class="branch-1 cbranch-no" title="branch not covered" >'')</span>.toLowerCase();
+            };
+            this.getSearch = function () {
+                return _this.metadata.search || <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
+            };
+            this.setItemsPerPage = function (limit, reload) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (reload === void 0) { <span class="cstat-no" title="statement not covered" >reload = true; </span>}
+                return _this.setMetadata({ limit: parseInt(limit) }, reload);
+            };
+            this.setCurrentPage = function (num, reload) {
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (reload === void 0) { reload = true; }
+                var offset = Math.min(_this.getTotalItems(), Math.max(0, (parseInt(num) - 1)) * _this.getItemsPerPage());
+                return _this.setMetadata({ offset: offset }, reload);
+            };
+            this.setOrder = function (order, reload) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (reload === void 0) { <span class="cstat-no" title="statement not covered" >reload = true; </span>}
+                return _this.setMetadata({ order: order }, reload);
+            };
+            this.toggleOrder = function (reload) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (reload === void 0) { <span class="cstat-no" title="statement not covered" >reload = true; </span>}
+                var matches = /(\w+)\s*(asc|desc)?/i.exec(_this.getOrder() || <span class="branch-1 cbranch-no" title="branch not covered" >_this.pk)</span>;
+                var newOrder = (matches[1] || <span class="branch-1 cbranch-no" title="branch not covered" >_this.pk)</span> + ' ' + (/desc/i.test(matches[2]) ? 'asc' : <span class="branch-1 cbranch-no" title="branch not covered" >'desc')</span>;
+                return _this.setOrder(newOrder, reload);
+            };
+            this.setSearch = function (search, reload) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (reload === void 0) { <span class="cstat-no" title="statement not covered" >reload = true; </span>}
+                return _this.setMetadata({ offset: 0, search: search }, reload);
+            };
+            this.setMetadata = function (metadata, reload) {
+                var lastMetaData = JSON.stringify(_this.metadata);
+                var newMetaData = JSON.stringify(Minute.Utils.extend(_this.metadata, metadata));
+                if (reload &amp;&amp; (lastMetaData !== newMetaData)) {
+                    _this.reloadAll(true);
+                }
+                return _this;
+            };
+            this.dump = function () {
+                return _this.map(function (item) { return item.dump(); });
+            };
+            this.loadPrevPage = <span class="fstat-no" title="function not covered" >function (replace) {</span>
+<span class="cstat-no" title="statement not covered" >                if (replace === void 0) { <span class="cstat-no" title="statement not covered" >replace = true; </span>}</span>
+<span class="cstat-no" title="statement not covered" >                if (_this.hasLessPages()) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.setCurrentPage(_this.getCurrentPage() - 1, replace);</span>
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    console.log("error: already on first page");</span>
+                }
+            };
+            this.loadNextPage = <span class="fstat-no" title="function not covered" >function (replace) {</span>
+<span class="cstat-no" title="statement not covered" >                if (replace === void 0) { <span class="cstat-no" title="statement not covered" >replace = true; </span>}</span>
+<span class="cstat-no" title="statement not covered" >                if (_this.hasMorePages()) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.setCurrentPage(_this.getCurrentPage() + 1, replace);</span>
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    console.log("error: already on last page: ", _this.getCurrentPage(), _this.getTotalPages());</span>
+                }
+            };
+            this.hasMorePages = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                return _this.getCurrentPage() &lt; _this.getTotalPages();</span>
+            };
+            this.hasLessPages = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                return _this.getCurrentPage() &gt; 1;</span>
+            };
+        }
+        Items.prototype.toArray = function () {
+            return this.map(function (item) { return item; });
+        };
+        Items.prototype.filterItemsBy = function (items, attr, reverse) {
+            var filter = function (item) { return item.parent &amp;&amp; !!item.attr(attr); };
+            return items.filter(function (item) { return reverse ? !filter(item) : filter(item); });
+        };
+        return Items;
+    }(Array));
+    Minute.Items = Items;
+})(Minute || (<span class="branch-1 cbranch-no" title="branch not covered" >Minute = {})</span>);
+//# sourceMappingURL=minute-core.js.map</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jul 05 2016 13:53:55 GMT+0530 (India Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

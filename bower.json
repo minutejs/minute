@@ -1,0 +1,29 @@
+{
+  "name": "minute",
+  "authors": [
+    "Sanchit <dev@minutephp.com>"
+  ],
+  "description": "Minute framework library",
+  "main": "src/js/minute.js",
+  "keywords": [
+    "minute",
+    "framework",
+    "angular",
+    "php"
+  ],
+  "license": "MIT",
+  "homepage": "http://www.minutephp.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.7",
+    "jquery": "*",
+    "emitter": "component/emitter#^1.2.1",
+    "es6-promise": "^3.2.2"
+  }
+}
