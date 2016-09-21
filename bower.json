@@ -24,6 +24,7 @@
     "angular": "^1.5.7",
     "jquery": "*",
     "emitter": "component/emitter#^1.2.1",
-    "es6-promise": "^3.2.2"
+    "es6-promise": "^3.2.2",
+    "angular-gettext": "minutephp/angular-gettext#4a73b89f75ff51b131c1829e276fae11dfda3589"
   }
 }
