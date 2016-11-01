@@ -346,3 +346,39 @@ span.muted {
 .member-banner div.alert {
     margin: 0;
 }
+
+.alertify-logs > div {
+    overflow: visible;
+}
+
+.banner-alert a {
+    color: white;
+    text-decoration: none;
+}
+
+.banner-alert a:hover {
+    text-decoration: underline;
+}
+
+.close-icon {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    display: block;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 100%;
+    background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%);
+    background-color: black;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.affiliate-input {
+    padding-left: 0;
+    margin-top: -5px;
+}

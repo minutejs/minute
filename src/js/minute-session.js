@@ -5,19 +5,21 @@ var Minute;
     var sessionData = { user: {}, site: {}, request: {}, providers: [{ name: 'Email', showIcons: true, showLabels: true, enabled: true }] };
     function setSessionData(data, event) {
         if (event === void 0) { event = 'session_user_update'; }
-        if (data.request && location.hash) {
-            angular.extend(data.request, { hash: location.hash.substr(1) });
-        }
-        sessionData = data;
-        //console.log("event: ", event);
-        //console.log("data: ", data);
-        angular.forEach(scopes, function (scope) {
-            angular.extend(scope.session, data);
-            scope.$broadcast('session_user_update', { event: event, data: scope.session });
-            if (event !== 'session_user_update') {
-                scope.$broadcast(event, scope.session);
+        if (data) {
+            if (data.request && location.hash) {
+                angular.extend(data.request, { hash: location.hash.substr(1) });
             }
-        });
+            sessionData = data;
+            //console.log("event: ", event);
+            //console.log("data: ", data);
+            angular.forEach(scopes, function (scope) {
+                angular.extend(scope.session, data);
+                scope.$broadcast('session_user_update', { event: event, data: scope.session });
+                if (event !== 'session_user_update') {
+                    scope.$broadcast(event, scope.session);
+                }
+            });
+        }
     }
     Minute.setSessionData = setSessionData;
     function getSessionData() {
@@ -95,6 +97,10 @@ var Minute;
                         $rootScope.session = angular.extend({}, service, sessionData);
                         $rootScope.$on('session_user_update', function (data) { return $timeout(showHideLinks); });
                         $timeout(function () { return showHideLinks(sessionData); });
+                    }
+                    if (!/tz\_offset\=/.test(document.cookie)) {
+                        var expires = new Date("2020-01-01");
+                        document.cookie = "tz_offset=" + expires.getTimezoneOffset() + ";expires=" + expires.toString() + ";path=/;domain=." + location.hostname.replace(/^www\./, '');
                     }
                     return service;
                 };

@@ -4,23 +4,25 @@ module Minute {
     let sessionData: any = {user: {}, site: {}, request: {}, providers: [{name: 'Email', showIcons: true, showLabels: true, enabled: true}]};
 
     export function setSessionData(data: Session, event: string = 'session_user_update') {
-        if (data.request && location.hash) {
-            angular.extend(data.request, {hash: location.hash.substr(1)});
-        }
-
-        sessionData = data;
-
-        //console.log("event: ", event);
-        //console.log("data: ", data);
-
-        angular.forEach(scopes, (scope) => {
-            angular.extend(scope.session, data);
-            scope.$broadcast('session_user_update', {event: event, data: scope.session});
-
-            if (event !== 'session_user_update') {
-                scope.$broadcast(event, scope.session);
+        if (data) {
+            if (data.request && location.hash) {
+                angular.extend(data.request, {hash: location.hash.substr(1)});
             }
-        });
+
+            sessionData = data;
+
+            //console.log("event: ", event);
+            //console.log("data: ", data);
+
+            angular.forEach(scopes, (scope) => {
+                angular.extend(scope.session, data);
+                scope.$broadcast('session_user_update', {event: event, data: scope.session});
+
+                if (event !== 'session_user_update') {
+                    scope.$broadcast(event, scope.session);
+                }
+            });
+        }
     }
 
     export function getSessionData() {
@@ -115,6 +117,11 @@ module Minute {
                     $rootScope.session = angular.extend({}, service, sessionData);
                     $rootScope.$on('session_user_update', (data: any) => $timeout(showHideLinks));
                     $timeout(() => showHideLinks(sessionData));
+                }
+
+                if (!/tz\_offset\=/.test(document.cookie)) {
+                    let expires = new Date("2020-01-01");
+                    document.cookie = "tz_offset=" + expires.getTimezoneOffset() + ";expires=" + expires.toString() + ";path=/;domain=." + location.hostname.replace(/^www\./, '');
                 }
 
                 return service;

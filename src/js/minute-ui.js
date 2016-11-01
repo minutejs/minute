@@ -40,7 +40,7 @@ var Minute;
                     if (cancelLabel === void 0) { cancelLabel = ''; }
                     return new Promise(function (resolve, reject) {
                         alertify.okBtn(okLabel || gettext('OK')).cancelBtn(cancelLabel || gettext('Cancel'))
-                            .defaultValue(placeholder).prompt(prompt, function (value) { return value ? resolve(value) : reject(); }, reject);
+                            .defaultValue(placeholder).prompt(prompt, function (value) { return value ? resolve(value) : reject(null); }, function () { return reject('cancel'); });
                     });
                 };
                 service.toast = function (text, type, html, hideAfter, position) {

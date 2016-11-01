@@ -14,7 +14,7 @@ module Minute {
         }
 
         attr = (name:string, value = void 0):Item => {
-            if (value == void 0) {
+            if (value === void 0) {
                 return this[name];
             } else if (this.attrs.indexOf(name) !== -1) {
                 if (typeof value === 'string') {
@@ -42,7 +42,7 @@ module Minute {
 
                 return this;
             } else {
-                console.log("attr '%s' not found in %s", name, this);
+                console.log("Warning: attr '%s' not found in %s", name, this);
             }
         };
 

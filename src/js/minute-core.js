@@ -21,7 +21,7 @@ var Minute;
             this.metadata = {};
             this.attr = function (name, value) {
                 if (value === void 0) { value = void 0; }
-                if (value == void 0) {
+                if (value === void 0) {
                     return _this[name];
                 }
                 else if (_this.attrs.indexOf(name) !== -1) {
@@ -52,7 +52,7 @@ var Minute;
                     return _this;
                 }
                 else {
-                    console.log("attr '%s' not found in %s", name, _this);
+                    console.log("Warning: attr '%s' not found in %s", name, _this);
                 }
             };
             this.removeAttr = function (name) {

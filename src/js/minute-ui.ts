@@ -43,7 +43,7 @@ module Minute {
             service.prompt = (prompt: string = 'Enter value', placeholder: string = '', okLabel: string = '', cancelLabel: string = ''): Promise<Object> => {
                 return new Promise((resolve, reject)=> {
                     alertify.okBtn(okLabel || gettext('OK')).cancelBtn(cancelLabel || gettext('Cancel'))
-                        .defaultValue(placeholder).prompt(prompt, (value) => value ? resolve(value) : reject(), reject);
+                        .defaultValue(placeholder).prompt(prompt, (value) => value ? resolve(value) : reject(null), () => reject('cancel'));
                 });
             };
 
