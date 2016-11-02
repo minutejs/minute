@@ -100,14 +100,14 @@ module Minute {
 
                     $compile(el)(theScope);
 
-                    let closeButtons: any = el.getElementsByClassName('close-button');
-                    if (closeButtons.length > 0) {
-                        for (var i = 0; i < closeButtons.length; i++) {
-                            closeButtons[i].onclick = () => hide();
-                        }
-                    }
-
                     setTimeout(()=> {
+                        let closeButtons: any = el.getElementsByClassName('close-button');
+                        if (closeButtons.length > 0) {
+                            for (var i = 0; i < closeButtons.length; i++) {
+                                closeButtons[i].onclick = () => hide();
+                            }
+                        }
+
                         let autoFocus: any = el.getElementsByClassName('auto-focus');
 
                         if (autoFocus.length > 0) {

@@ -92,13 +92,13 @@ var Minute;
                         parent.appendChild(el);
                         angular.extend(theScope, { modal: modal }, params || {});
                         $compile(el)(theScope);
-                        var closeButtons = el.getElementsByClassName('close-button');
-                        if (closeButtons.length > 0) {
-                            for (var i = 0; i < closeButtons.length; i++) {
-                                closeButtons[i].onclick = function () { return hide(); };
-                            }
-                        }
                         setTimeout(function () {
+                            var closeButtons = el.getElementsByClassName('close-button');
+                            if (closeButtons.length > 0) {
+                                for (var i = 0; i < closeButtons.length; i++) {
+                                    closeButtons[i].onclick = function () { return hide(); };
+                                }
+                            }
                             var autoFocus = el.getElementsByClassName('auto-focus');
                             if (autoFocus.length > 0) {
                                 autoFocus[0].focus();
