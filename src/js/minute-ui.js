@@ -67,7 +67,7 @@ var Minute;
                         var stop = function (ev) { return ev.stopImmediatePropagation(); };
                         var theScope = getScope(scope);
                         var hide = function () {
-                            if (event && event.target && (event.type === 'mousedown') && (event.target['id'] === 'global-zeroclipboard-flash-bridge')) {
+                            if ((typeof event !== 'undefined') && event.target && (event.type === 'mousedown') && (event.target['id'] === 'global-zeroclipboard-flash-bridge')) {
                                 return;
                             }
                             try {
@@ -92,13 +92,13 @@ var Minute;
                         parent.appendChild(el);
                         angular.extend(theScope, { modal: modal }, params || {});
                         $compile(el)(theScope);
-                        setTimeout(function () {
-                            var closeButtons = el.getElementsByClassName('close-button');
-                            if (closeButtons.length > 0) {
-                                for (var i = 0; i < closeButtons.length; i++) {
-                                    closeButtons[i].onclick = function () { return hide(); };
-                                }
+                        var closeButtons = el.getElementsByClassName('close-button');
+                        if (closeButtons.length > 0) {
+                            for (var i = 0; i < closeButtons.length; i++) {
+                                closeButtons[i].onclick = function () { return hide(); };
                             }
+                        }
+                        setTimeout(function () {
                             var autoFocus = el.getElementsByClassName('auto-focus');
                             if (autoFocus.length > 0) {
                                 autoFocus[0].focus();

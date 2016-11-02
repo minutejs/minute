@@ -66,7 +66,7 @@ module Minute {
                     let theScope = getScope(scope);
 
                     let hide = () => {
-                        if (event && event.target && (event.type === 'mousedown') && (event.target['id'] === 'global-zeroclipboard-flash-bridge')) {
+                        if ((typeof event !== 'undefined') && event.target && (event.type === 'mousedown') && (event.target['id'] === 'global-zeroclipboard-flash-bridge')) {
                             return;
                         }
 
@@ -100,14 +100,14 @@ module Minute {
 
                     $compile(el)(theScope);
 
-                    setTimeout(()=> {
-                        let closeButtons: any = el.getElementsByClassName('close-button');
-                        if (closeButtons.length > 0) {
-                            for (var i = 0; i < closeButtons.length; i++) {
-                                closeButtons[i].onclick = () => hide();
-                            }
+                    let closeButtons: any = el.getElementsByClassName('close-button');
+                    if (closeButtons.length > 0) {
+                        for (var i = 0; i < closeButtons.length; i++) {
+                            closeButtons[i].onclick = () => hide();
                         }
+                    }
 
+                    setTimeout(()=> {
                         let autoFocus: any = el.getElementsByClassName('auto-focus');
 
                         if (autoFocus.length > 0) {
