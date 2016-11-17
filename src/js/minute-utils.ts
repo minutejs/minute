@@ -32,13 +32,13 @@ module Minute {
             return angular.extend.apply(o, [o].concat(objects));
         }
 
-        static keyValue(key:string, value:any):Object {
+        static keyValue(key: string, value: any): Object {
             var obj = {};
             obj[key] = value;
             return obj;
         }
 
-        static unique(items:any, attr:string, value:any) {
+        static unique(items: any, attr: string, value: any) {
             let unique = false;
             let count = 1;
             let name = value;
@@ -66,6 +66,26 @@ module Minute {
             }
 
             return prefix;
-        }
+        };
+
+        static findWhere = (obj: any, matchers: any) => {
+            if (obj && matchers) {
+                for (let item of obj) {
+                    let pass = true;
+
+                    for (let prop in matchers) {
+                        if (matchers.hasOwnProperty(prop)) {
+                            pass = pass && item.hasOwnProperty(prop) && !!matchers[prop] && (item[prop] === matchers[prop]);
+                        }
+                    }
+
+                    if (pass) {
+                        return item;
+                    }
+                }
+            }
+
+            return false;
+        };
     }
 }

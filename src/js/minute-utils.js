@@ -64,6 +64,23 @@ var Minute;
             }
             return prefix;
         };
+        Utils.findWhere = function (obj, matchers) {
+            if (obj && matchers) {
+                for (var _i = 0, obj_1 = obj; _i < obj_1.length; _i++) {
+                    var item = obj_1[_i];
+                    var pass = true;
+                    for (var prop in matchers) {
+                        if (matchers.hasOwnProperty(prop)) {
+                            pass = pass && item.hasOwnProperty(prop) && !!matchers[prop] && (item[prop] === matchers[prop]);
+                        }
+                    }
+                    if (pass) {
+                        return item;
+                    }
+                }
+            }
+            return false;
+        };
         return Utils;
     }());
     Minute.Utils = Utils;

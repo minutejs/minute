@@ -27,12 +27,12 @@
     "es6-promise": "^3.2.2",
     "angular-gettext": "minutephp/angular-gettext#4a73b89f75ff51b131c1829e276fae11dfda3589"
   },
-  "version": "0.0.3",
-  "_release": "0.0.3",
+  "version": "0.0.6",
+  "_release": "0.0.6",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.3",
-    "commit": "1f1c1251e15895c06a830f08c6f4a5a2ffd355c3"
+    "tag": "v0.0.6",
+    "commit": "f06873fbc1e7a967ab335eca2a2c7193f9161aa1"
   },
   "_source": "git://github.com/minutejs/minute.git",
   "_target": "*",
