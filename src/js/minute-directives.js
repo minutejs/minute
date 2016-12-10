@@ -169,11 +169,11 @@ var Minute;
             this.restrict = 'E';
             this.require = 'ngModel';
             this.replace = true;
-            this.scope = { type: '@', multiple: '@', preview: '@', btnClass: '@', label: '@', ngRequired: '@', remove: '@', icon: '@', hint: '@', url: '@', onUpload: '=?' };
+            this.scope = { type: '@', multiple: '@', preview: '@', btnClass: '@', label: '@', ngRequired: '@', remove: '@', icon: '@', hint: '@', url: '@', onUpload: '=?', accept: '@' };
             this.template = "\n            <div style=\"display: inline-block\">\n                <div class=\"btn-group\" ng-show=\"!uploading\">\n                  <button type=\"button\" class=\"{{btnClass || 'btn btn-default btn-sm'}}\" ng-click=\"upload()\" tooltip=\"{{hint || 'Upload'}}\">\n                    <i class=\"fa {{icon || 'fa-upload'}}\" ng-show=\"icon !== 'false'\"></i> <span ng-show=\"label !== 'false'\">{{label || 'Upload..'}}</span>\n                  </button>\n                  <button ng-show=\"url === 'true'\" type=\"button\" class=\"{{btnClass || 'btn btn-default btn-sm'}}\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>\n                  <ul ng-show=\"url === 'true'\" class=\"dropdown-menu\">                    \n                    <li><a href=\"\" ng-click=\"addUrl()\">Upload via URL..</a></li>\n                  </ul>\n                </div>\n                \n                <button type=\"button\" class=\"{{btnClass || 'btn btn-danger btn-sm'}}\" ng-click=\"cancel()\" ng-show=\"uploading\"><i class=\"fa fa-refresh fa-spin\"></i>\n                    <span ng-show=\"label !== 'false'\">Cancel</span>\n                </button>\n                <minute-preview type=\"{{type || 'image'}}\" ng-if=\"preview == 'true'\" src=\"src()\"></minute-preview>\n                <a href=\"\" class=\"btn btn-xs btn-transparent\" ng-click=\"clear()\" ng-show=\"remove == 'true' && !!src()\" tooltip=\"Clear upload\"><i class=\"fa fa-trash\"></i></a>\n                <input type=\"text\" required value=\"{{src()}}\" style=\"opacity: 0; width:1px;height:1px\" ng-if=\"ngRequired == 'true'\">\n            </div>\n        ";
             this.link = function ($scope, elements, attrs, ngModel) {
                 var iframe, uploader;
-                var map = { image: '.png, .jpg, .jpeg .gif', 'video': '.avi, .mov, .wmv, .mp4, .flv', 'audio': '.wav, .mp3, .ogg', 'other': '' };
+                var map = { image: '.png, .jpg, .jpeg, .gif', 'video': '.avi, .mov, .wmv, .mp4, .flv', 'audio': '.wav, .mp3, .ogg', 'other': '' };
                 var guid = Minute.Utils.randomString(16);
                 var frame = "<iframe name=\"" + guid + "\" width=\"1\" height=\"1\" style=\"position: absolute;top:-100px;\" tabindex=\"-1\"></iframe>";
                 var form = "<form method=\"post\" action=\"/generic/uploader\" enctype=\"multipart/form-data\" id=\"theForm\">\n                                <input type=\"hidden\" name=\"cb\" id=\"cb\" value=\"" + guid + "\" />\n                                <input name=\"upload[]\" type=\"file\" id=\"theFile\">\n                            </form>";
@@ -184,7 +184,7 @@ var Minute;
                     iframe.document.write(form);
                     uploader = iframe.document.getElementById('theFile');
                     uploader.multiple = $scope.multiple === 'true';
-                    uploader.accept = map[$scope.type || 'image'];
+                    uploader.accept = $scope.accept || map[$scope.type || 'image'];
                     uploader.addEventListener('change', function () {
                         iframe.document.getElementById('theForm').submit();
                         $scope.start();
@@ -238,25 +238,39 @@ var Minute;
         return MinuteUploader;
     }());
     Minute.MinuteUploader = MinuteUploader;
+    var MinutePreviewService = (function () {
+        function MinutePreviewService() {
+            this.$get = function ($rootScope, $ui) {
+                var service = {};
+                service.lightbox = function (images) {
+                    var template = "\n                <div class=\"box\">\n                    <div class=\"box-body\">\n                        <a class=\"pull-right close-button\" href=\"\"><i class=\"fa fa-times\"></i></a>\n                        <div class=\"tabs-panel\" ng-init=\"tabs = {}\">\n                            <ul class=\"nav nav-tabs\">\n                                <li ng-class=\"{active: image === tabs.selectedImage}\" ng-repeat=\"image in images\" ng-init=\"tabs.selectedImage = tabs.selectedImage || image\">\n                                    <a href=\"\" ng-click=\"tabs.selectedImage = image\">{{name(image)}}</a>\n                                </li>\n                            </ul>\n                            <div class=\"tab-content\">\n                                <div class=\"tab-pane fade in active\" ng-repeat=\"image in images\" ng-if=\"image === tabs.selectedImage\">\n                                    <a ng-href=\"{{image}}\" class=\"thumbnail\" target=\"preview\"><img ng-src=\"{{image}}\"></a>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>";
+                    $ui.popup(template, false, null, { images: images, name: Minute.Utils.basename });
+                };
+                return service;
+            };
+            this.$get.$inject = ['$rootScope', '$ui'];
+        }
+        return MinutePreviewService;
+    }());
+    Minute.MinutePreviewService = MinutePreviewService;
     var MinutePreview = (function () {
-        function MinutePreview($ui) {
+        function MinutePreview($preview) {
             var _this = this;
-            this.$ui = $ui;
+            this.$preview = $preview;
             this.restrict = 'E';
             this.replace = true;
             this.scope = { src: '=?', type: '@' };
             this.template = "\n            <ng-switch on=\"type === 'image'\" ng-show=\"!!src\">\n                <a ng-switch-when=\"true\" href=\"\" ng-click=\"preview()\" class=\"btn btn-xs btn-transparent\"><i class=\"fa fa-eye\" tooltip=\"Preview\"></i></a>\n                <a ng-switch-when=\"false\" href=\"\" ng-href=\"{{src}}\" target=\"_blank\" class=\"btn btn-xs btn-transparent\"><i class=\"fa fa-eye\" tooltip=\"Preview\"></i></a>                \n            </ng-switch>\n        ";
             this.link = function ($scope, element, attrs) {
-                var template = "\n            <div class=\"box\">\n                <div class=\"box-body\">\n                    <a class=\"pull-right close-button\" href=\"\"><i class=\"fa fa-times\"></i></a>\n                    <div class=\"tabs-panel\" ng-init=\"tabs = {}\">\n                        <ul class=\"nav nav-tabs\">\n                            <li ng-class=\"{active: image === tabs.selectedImage}\" ng-repeat=\"image in images\" ng-init=\"tabs.selectedImage = tabs.selectedImage || image\">\n                                <a href=\"\" ng-click=\"tabs.selectedImage = image\">{{name(image)}}</a>\n                            </li>\n                        </ul>\n                        <div class=\"tab-content\">\n                            <div class=\"tab-pane fade in active\" ng-repeat=\"image in images\" ng-if=\"image === tabs.selectedImage\">\n                                <a ng-href=\"{{image}}\" class=\"thumbnail\" target=\"preview\"><img ng-src=\"{{image}}\"></a>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            ";
                 $scope.preview = function () {
                     var images = angular.isArray($scope.src) ? $scope.src : [$scope.src];
-                    _this.$ui.popup(template, false, null, { images: images, name: Minute.Utils.basename });
+                    _this.$preview.lightbox(images);
                 };
             };
         }
         MinutePreview.factory = function () {
-            var directive = function ($ui) { return new MinutePreview($ui); };
-            directive.$inject = ["$ui"];
+            var directive = function ($preview) { return new MinutePreview($preview); };
+            directive.$inject = ["$preview"];
             return directive;
         };
         return MinutePreview;
@@ -339,6 +353,7 @@ var Minute;
     }());
     Minute.MinuteObserver = MinuteObserver;
     angular.module('MinuteDirectives', ['MinuteConfig', 'MinuteUI'])
+        .provider("$preview", MinutePreviewService)
         .directive('minuteSearchBar', MinuteSearchBar.factory())
         .directive('minutePager', MinutePager.factory())
         .directive('minuteSortBar', MinuteSortBar.factory())

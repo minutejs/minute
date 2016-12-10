@@ -57,4 +57,3 @@ var Minute;
     }(Minute.Item));
     Minute.Comment = Comment;
 })(Minute || (Minute = {}));
-//# sourceMappingURL=sample-classes.js.map

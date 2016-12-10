@@ -2,7 +2,7 @@
 
 module Minute {
     export class MinuteCountrySelect implements ng.IDirective {
-        scope = {ngModel: '=?'};
+        scope: any = {ngModel: '=?'};
         countries = [{"code": "AF", "name": "Afghanistan"}, {"code": "AX", "name": "Åland Islands"}, {"code": "AL", "name": "Albania"}, {"code": "DZ", "name": "Algeria"}, {
             "code": "AS",
             "name": "American Samoa"
@@ -155,11 +155,11 @@ module Minute {
             "name": "Zambia"
         }, {"code": "ZW", "name": "Zimbabwe"}];
 
-        constructor(private $compile:ng.ICompileService, private $parse:ng.IParseService) {
+        constructor(private $compile: ng.ICompileService, private $parse: ng.IParseService) {
         }
 
-        static factory():ng.IDirectiveFactory {
-            var directive:ng.IDirectiveFactory = ($compile:ng.ICompileService, $parse:ng.IParseService) => new MinuteCountrySelect($compile, $parse);
+        static factory(): ng.IDirectiveFactory {
+            var directive: ng.IDirectiveFactory = ($compile: ng.ICompileService, $parse: ng.IParseService) => new MinuteCountrySelect($compile, $parse);
             directive.$inject = ["$compile", "$parse"];
             return directive;
         }
@@ -174,6 +174,18 @@ module Minute {
         }
     }
 
+    export class googleSearch implements ng.IDirective {
+        restrict = 'A';
+        scope: any = {googleSearch: '@'};
+
+        static instance = () => new googleSearch;
+
+        link = ($scope: any, element: ng.IAugmentedJQuery) => {
+            element.attr('href', "http://www.google.com/search?btnI=I'm+Feeling+Lucky&q=" + encodeURI($scope.googleSearch)).attr('target', '_blank');
+        }
+    }
+
     angular.module('MinuteAddons', [])
+        .directive('googleSearch', googleSearch.instance)
         .directive('input', MinuteCountrySelect.factory());
 }

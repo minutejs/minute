@@ -58,7 +58,7 @@ module Minute {
             return name;
         }
 
-        static basename = (url) => url ? url.split('/').pop() : '';
+        static basename = (url) => angular.isString(url) ? url.split('/').pop() : '';
 
         static randomString = (len = 16, prefix = '', possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") => {
             while (prefix.length < len) {
@@ -86,6 +86,18 @@ module Minute {
             }
 
             return false;
+        };
+
+        static enabledKeys = (obj: any, match: any = null) => {
+            let results = [];
+
+            angular.forEach(obj, (v, k) => {
+                if ((match === null && !!v) || (v === match)) {
+                    results.push(k);
+                }
+            });
+
+            return results;
         };
     }
 }

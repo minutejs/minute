@@ -4,7 +4,7 @@ module Minute {
     export class MinuteSortBar implements ng.IDirective {
         restrict = 'E';
         replace = true;
-        scope = {on: '=?', columns: '=?'};
+        scope: any = {on: '=?', columns: '=?'};
         template: string = `
             <select class="form-control input-sm" ng-model="data.sortBy" ng-options="column.field as column.label for column in data.cols2" title="sort by..">
                 <option value="" translate="">Sort by..</option>
@@ -44,7 +44,7 @@ module Minute {
     export class MinuteSearchBar implements ng.IDirective {
         restrict = 'E';
         replace = true;
-        scope = {on: '=?', search: '=?', columns: '@', operator: '@', label: '@'};
+        scope: any = {on: '=?', search: '=?', columns: '@', operator: '@', label: '@'};
         template: string = `
         <form ng-submit="find()" class="form-inline">
             <div class="input-group input-group-sm search-bar">
@@ -87,7 +87,7 @@ module Minute {
     export class MinutePager implements ng.IDirective {
         restrict = 'E';
         replace = true;
-        scope = {on: '=', display: '@', numPages: '@', noResults: '@', alwaysShow: '@'};
+        scope: any = {on: '=', display: '@', numPages: '@', noResults: '@', alwaysShow: '@'};
         template: string = `
         <div ng-switch="!!on.getTotalItems()">
             <ul class="pagination pagination-sm no-margin" ng-switch-when="true" ng-show="(alwaysShow === 'true') || (on.getTotalPages() > 1)">
@@ -131,7 +131,7 @@ module Minute {
     //sort a list using jQueryUi
     export class MinuteListSorter implements ng.IDirective {
         restrict = 'A';
-        scope = {'minuteListSorter': '=?', sortIndex: '@', selector: '@', onOrder: '=?'};
+        scope: any = {'minuteListSorter': '=?', sortIndex: '@', selector: '@', onOrder: '=?'};
 
         constructor(private $timeout: ng.ITimeoutService) {
         }
@@ -202,7 +202,7 @@ module Minute {
         restrict = 'E';
         require = 'ngModel';
         replace = true;
-        scope = {type: '@', multiple: '@', preview: '@', btnClass: '@', label: '@', ngRequired: '@', remove: '@', icon: '@', hint: '@', url: '@', onUpload: '=?'};
+        scope: any = {type: '@', multiple: '@', preview: '@', btnClass: '@', label: '@', ngRequired: '@', remove: '@', icon: '@', hint: '@', url: '@', onUpload: '=?', accept: '@'};
         template = `
             <div style="display: inline-block">
                 <div class="btn-group" ng-show="!uploading">
@@ -235,7 +235,7 @@ module Minute {
 
         link = ($scope: any, elements: ng.IAugmentedJQuery, attrs: ng.IAttributes, ngModel: ng.INgModelController) => {
             let iframe, uploader;
-            let map = {image: '.png, .jpg, .jpeg .gif', 'video': '.avi, .mov, .wmv, .mp4, .flv', 'audio': '.wav, .mp3, .ogg', 'other': ''};
+            let map = {image: '.png, .jpg, .jpeg, .gif', 'video': '.avi, .mov, .wmv, .mp4, .flv', 'audio': '.wav, .mp3, .ogg', 'other': ''};
 
             let guid = Minute.Utils.randomString(16);
             let frame = `<iframe name="${guid}" width="1" height="1" style="position: absolute;top:-100px;" tabindex="-1"></iframe>`;
@@ -254,7 +254,7 @@ module Minute {
 
                 uploader = iframe.document.getElementById('theFile');
                 uploader.multiple = $scope.multiple === 'true';
-                uploader.accept = map[$scope.type || 'image'];
+                uploader.accept = $scope.accept || map[$scope.type || 'image'];
                 uploader.addEventListener('change', () => {
                     iframe.document.getElementById('theForm').submit();
                     $scope.start();
@@ -310,10 +310,45 @@ module Minute {
         }
     }
 
+    export class MinutePreviewService implements ng.IServiceProvider {
+        constructor() {
+            this.$get.$inject = ['$rootScope', '$ui'];
+        }
+
+        $get = ($rootScope: ng.IRootScopeService, $ui: any) => {
+            let service: any = {};
+
+            service.lightbox = (images) => {
+                let template = `
+                <div class="box">
+                    <div class="box-body">
+                        <a class="pull-right close-button" href=""><i class="fa fa-times"></i></a>
+                        <div class="tabs-panel" ng-init="tabs = {}">
+                            <ul class="nav nav-tabs">
+                                <li ng-class="{active: image === tabs.selectedImage}" ng-repeat="image in images" ng-init="tabs.selectedImage = tabs.selectedImage || image">
+                                    <a href="" ng-click="tabs.selectedImage = image">{{name(image)}}</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" ng-repeat="image in images" ng-if="image === tabs.selectedImage">
+                                    <a ng-href="{{image}}" class="thumbnail" target="preview"><img ng-src="{{image}}"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
+                $ui.popup(template, false, null, {images: images, name: Utils.basename});
+            };
+
+            return service;
+        }
+    }
+
     export class MinutePreview implements ng.IDirective {
         restrict = 'E';
         replace = true;
-        scope = {src: '=?', type: '@'};
+        scope: any = {src: '=?', type: '@'};
         template = `
             <ng-switch on="type === 'image'" ng-show="!!src">
                 <a ng-switch-when="true" href="" ng-click="preview()" class="btn btn-xs btn-transparent"><i class="fa fa-eye" tooltip="Preview"></i></a>
@@ -321,46 +356,26 @@ module Minute {
             </ng-switch>
         `;
 
-        constructor(private $ui: UiService) {
+        constructor(private $preview: any) {
         }
 
         static factory(): ng.IDirectiveFactory {
-            var directive: ng.IDirectiveFactory = ($ui: UiService) => new MinutePreview($ui);
-            directive.$inject = ["$ui"];
+            var directive: ng.IDirectiveFactory = ($preview: any) => new MinutePreview($preview);
+            directive.$inject = ["$preview"];
             return directive;
         }
 
         link = ($scope: any, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) => {
-            let template = `
-            <div class="box">
-                <div class="box-body">
-                    <a class="pull-right close-button" href=""><i class="fa fa-times"></i></a>
-                    <div class="tabs-panel" ng-init="tabs = {}">
-                        <ul class="nav nav-tabs">
-                            <li ng-class="{active: image === tabs.selectedImage}" ng-repeat="image in images" ng-init="tabs.selectedImage = tabs.selectedImage || image">
-                                <a href="" ng-click="tabs.selectedImage = image">{{name(image)}}</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane fade in active" ng-repeat="image in images" ng-if="image === tabs.selectedImage">
-                                <a ng-href="{{image}}" class="thumbnail" target="preview"><img ng-src="{{image}}"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            `;
-
             $scope.preview = () => {
                 let images = angular.isArray($scope.src) ? $scope.src : [$scope.src];
-                this.$ui.popup(template, false, null, {images: images, name: Utils.basename});
+                this.$preview.lightbox(images);
             };
         }
     }
 
     export class MinuteCheckboxAll implements ng.IDirective {
         restrict = 'A';
-        scope = {on: '=?', prop: '@', selection: '=?'};
+        scope: any = {on: '=?', prop: '@', selection: '=?'};
 
         link = ($scope: any, element: any, attrs: ng.IAttributes) => {
             let prop = $scope.prop || 'selected';
@@ -394,7 +409,7 @@ module Minute {
 
     export class MinuteHotKeys implements ng.IDirective {
         restrict = 'A';
-        scope = {minuteHotKeys: '=?'};
+        scope: any = {minuteHotKeys: '=?'};
 
         constructor(private $timeout: ng.ITimeoutService) {
         }
@@ -432,7 +447,7 @@ module Minute {
 
     export class MinuteObserver implements ng.IDirective {
         restrict = 'E';
-        scope = {watch: '=?', onChange: '&'};
+        scope: any = {watch: '=?', onChange: '&'};
         link = ($scope: any, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) => {
             $scope.$watch('watch', (n, o) => {
                 if (n !== o) {
@@ -443,6 +458,7 @@ module Minute {
     }
 
     angular.module('MinuteDirectives', ['MinuteConfig', 'MinuteUI'])
+        .provider("$preview", MinutePreviewService)
         .directive('minuteSearchBar', MinuteSearchBar.factory())
         .directive('minutePager', MinutePager.factory())
         .directive('minuteSortBar', MinuteSortBar.factory())

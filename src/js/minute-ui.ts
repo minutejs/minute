@@ -13,6 +13,7 @@ module Minute {
 
             let service: any = {};//{confirm: null, alert: null, prompt: null, toast: null, popup: null, popupUrl: null, closePopup: null, init: null};
             let alertify: any = window['alertify'];
+            let popups = [];
             let CustomEvent = (event, params = {bubbles: false, cancelable: false, detail: undefined}) => {
                 var evt = document.createEvent('CustomEvent');
                 evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
@@ -84,6 +85,11 @@ module Minute {
                                 setTimeout(() => el.parentNode.removeChild(el), 250);
                             }
 
+                            let index = popups.indexOf(el);
+                            if (index !== -1) {
+                                popups.splice(index, 1);
+                            }
+
                             $timeout(resolve);
                         } finally {
                             theScope.$destroy();
@@ -96,7 +102,13 @@ module Minute {
                     el.innerHTML = '<div class="' + type + ' home-in">' + template + '</div>';
 
                     parent.appendChild(el);
-                    angular.extend(theScope, {modal: modal}, params || {});
+                    popups.push(el);
+
+                    angular.extend(theScope, {modal: modal, hide: hide}, params || {});
+
+                    if (scope && scope.hasOwnProperty('$$phase')) {
+                        scope.hide = hide;
+                    }
 
                     $compile(el)(theScope);
 
@@ -154,6 +166,7 @@ module Minute {
 
             service.closePopup = () => {
                 var popups = document.getElementsByClassName('minute-modal');
+
                 if (popups.length > 0) {
                     for (let i = 0; i < popups.length; i++) {
                         popups[i].dispatchEvent(CustomEvent("hide"));
@@ -161,6 +174,14 @@ module Minute {
                 }
 
                 return true;
+            };
+
+            service.closeLastPopup = () => {
+                let lastPopup = popups.length > 0 ? popups.pop() : null;
+
+                if (lastPopup) {
+                    lastPopup.dispatchEvent(CustomEvent("hide"));
+                }
             };
 
             service.init = () => {

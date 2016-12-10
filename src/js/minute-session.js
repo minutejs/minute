@@ -28,12 +28,13 @@ var Minute;
     Minute.getSessionData = getSessionData;
     var MinuteSession = (function () {
         function MinuteSession() {
-            this.$get = function ($config, $rootScope, $ui, $http, $timeout) {
+            this.$get = function ($config, $rootScope, $ui, $http, $timeout, $q) {
                 var service = {};
                 var data = { form: {} };
-                var popup = function (url, modal, operation) {
+                var popup = function (url, modal, operation, params) {
                     if (operation === void 0) { operation = ''; }
-                    angular.extend(data, { service: service, error: '' });
+                    if (params === void 0) { params = {}; }
+                    angular.extend(data, { service: service, error: '' }, params);
                     $ui.closePopup();
                     $ui.popupUrl(url, modal, null, { data: data, submit: function () { return service.submit(url, operation); } });
                 };
@@ -57,6 +58,21 @@ var Minute;
                 service.createPassword = function (modal) {
                     if (modal === void 0) { modal = false; }
                     popup($config.urls.createPassword || '/auth/create-password-popup', modal, 'create-password');
+                };
+                service.checkRegistration = function (params) {
+                    if (params === void 0) { params = { title: '', msg: '', cta: '' }; }
+                    var deferred = $q.defer();
+                    if (sessionData && sessionData.user && sessionData.user.hasOwnProperty('email') && /@/.test(sessionData.user.email)) {
+                        $timeout(function () { return deferred.resolve(sessionData.user); });
+                    }
+                    else {
+                        var removeWatch_1 = $rootScope.$on('session_user_update', function (event, obj) {
+                            removeWatch_1();
+                            service.checkRegistration(params).then(function () { return deferred.resolve(sessionData.user); });
+                        });
+                        popup($config.urls.completeSignup || '/auth/complete-signup-popup', true, 'signup', params);
+                    }
+                    return deferred.promise;
                 };
                 service.logout = function (redirect) {
                     if (redirect === void 0) { redirect = ''; }
@@ -106,7 +122,7 @@ var Minute;
                 };
                 return service.init();
             };
-            this.$get.$inject = ['$config', '$rootScope', '$ui', '$http', '$timeout'];
+            this.$get.$inject = ['$config', '$rootScope', '$ui', '$http', '$timeout', '$q'];
         }
         return MinuteSession;
     }());

@@ -7,6 +7,7 @@ var Minute;
             this.$get = function ($config, $rootScope, $timeout, $templateCache, $http, gettext, $compile, $sce) {
                 var service = {}; //{confirm: null, alert: null, prompt: null, toast: null, popup: null, popupUrl: null, closePopup: null, init: null};
                 var alertify = window['alertify'];
+                var popups = [];
                 var CustomEvent = function (event, params) {
                     if (params === void 0) { params = { bubbles: false, cancelable: false, detail: undefined }; }
                     var evt = document.createEvent('CustomEvent');
@@ -80,6 +81,10 @@ var Minute;
                                 if (el.parentNode) {
                                     setTimeout(function () { return el.parentNode.removeChild(el); }, 250);
                                 }
+                                var index = popups.indexOf(el);
+                                if (index !== -1) {
+                                    popups.splice(index, 1);
+                                }
                                 $timeout(resolve);
                             }
                             finally {
@@ -90,7 +95,11 @@ var Minute;
                         el.className = "minute-modal";
                         el.innerHTML = '<div class="' + type + ' home-in">' + template + '</div>';
                         parent.appendChild(el);
-                        angular.extend(theScope, { modal: modal }, params || {});
+                        popups.push(el);
+                        angular.extend(theScope, { modal: modal, hide: hide }, params || {});
+                        if (scope && scope.hasOwnProperty('$$phase')) {
+                            scope.hide = hide;
+                        }
                         $compile(el)(theScope);
                         var closeButtons = el.getElementsByClassName('close-button');
                         if (closeButtons.length > 0) {
@@ -146,6 +155,12 @@ var Minute;
                         }
                     }
                     return true;
+                };
+                service.closeLastPopup = function () {
+                    var lastPopup = popups.length > 0 ? popups.pop() : null;
+                    if (lastPopup) {
+                        lastPopup.dispatchEvent(CustomEvent("hide"));
+                    }
                 };
                 service.init = function () {
                     alertify.parent(document.body);

@@ -31,15 +31,15 @@ module Minute {
 
     export class MinuteSession implements ng.IServiceProvider {
         constructor() {
-            this.$get.$inject = ['$config', '$rootScope', '$ui', '$http', '$timeout'];
+            this.$get.$inject = ['$config', '$rootScope', '$ui', '$http', '$timeout', '$q'];
         }
 
-        $get = ($config: Config, $rootScope: any, $ui: UiService, $http: ng.IHttpService, $timeout: ng.ITimeoutService): Session => {
+        $get = ($config: Config, $rootScope: any, $ui: UiService, $http: ng.IHttpService, $timeout: ng.ITimeoutService, $q: ng.IQService): Session => {
             let service: any = {};
             let data: any = {form: {}};
 
-            let popup = (url: string, modal: boolean, operation: string = '') => {
-                angular.extend(data, {service: service, error: ''});
+            let popup = (url: string, modal: boolean, operation: string = '', params: any = {}) => {
+                angular.extend(data, {service: service, error: ''}, params);
 
                 $ui.closePopup();
                 $ui.popupUrl(url, modal, null, {data: data, submit: () => service.submit(url, operation)});
@@ -66,6 +66,23 @@ module Minute {
 
             service.createPassword = (modal: boolean = false) => {
                 popup($config.urls.createPassword || '/auth/create-password-popup', modal, 'create-password');
+            };
+
+            service.checkRegistration = (params: any = {title: '', msg: '', cta: ''}) => {
+                let deferred = $q.defer();
+
+                if (sessionData && sessionData.user && sessionData.user.hasOwnProperty('email') && /@/.test(sessionData.user.email)) {
+                    $timeout(() => deferred.resolve(sessionData.user));
+                } else {
+                    let removeWatch = $rootScope.$on('session_user_update', (event: any, obj: any) => {
+                        removeWatch();
+                        service.checkRegistration(params).then(() => deferred.resolve(sessionData.user));
+                    });
+
+                    popup($config.urls.completeSignup || '/auth/complete-signup-popup', true, 'signup', params);
+                }
+
+                return deferred.promise;
             };
 
             service.logout = (redirect: string = '') => {

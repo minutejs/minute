@@ -54,7 +54,7 @@ var Minute;
             }
             return name;
         };
-        Utils.basename = function (url) { return url ? url.split('/').pop() : ''; };
+        Utils.basename = function (url) { return angular.isString(url) ? url.split('/').pop() : ''; };
         Utils.randomString = function (len, prefix, possible) {
             if (len === void 0) { len = 16; }
             if (prefix === void 0) { prefix = ''; }
@@ -80,6 +80,16 @@ var Minute;
                 }
             }
             return false;
+        };
+        Utils.enabledKeys = function (obj, match) {
+            if (match === void 0) { match = null; }
+            var results = [];
+            angular.forEach(obj, function (v, k) {
+                if ((match === null && !!v) || (v === match)) {
+                    results.push(k);
+                }
+            });
+            return results;
         };
         return Utils;
     }());
