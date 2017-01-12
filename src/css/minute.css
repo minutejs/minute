@@ -404,3 +404,7 @@ h3.form-title {
 .text-bold {
     font-weight: bold !important;
 }
+
+img.site-logo {
+    max-height: 40px;
+}

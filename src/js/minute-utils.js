@@ -91,6 +91,14 @@ var Minute;
             });
             return results;
         };
+        Utils.ucFirst = function (str, lcRemaining) {
+            if (lcRemaining === void 0) { lcRemaining = false; }
+            return (str || '').charAt(0).toUpperCase() + (lcRemaining ? (str || '').slice(1).toLowerCase() : (str || '').slice(1));
+        };
+        Utils.getParameterByName = function (name) {
+            var match = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        };
         return Utils;
     }());
     Minute.Utils = Utils;

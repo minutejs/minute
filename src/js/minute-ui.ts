@@ -29,27 +29,27 @@ module Minute {
             }
 
             service.alert = (text: string, okLabel: string = ''): Promise<Object> => {
-                return new Promise((resolve)=> {
+                return new Promise((resolve) => {
                     alertify.okBtn(okLabel || gettext('OK')).alert(text, resolve);
                 });
             };
 
             service.confirm = (text: string, okLabel: string = '', cancelLabel: string = ''): Promise<Object> => {
-                return new Promise((resolve, reject)=> {
+                return new Promise((resolve, reject) => {
                     alertify.okBtn(okLabel || gettext('OK')).cancelBtn(cancelLabel || gettext('Cancel'))
                         .confirm(text || gettext('Are you sure?'), resolve, reject);
                 });
             };
 
             service.prompt = (prompt: string = 'Enter value', placeholder: string = '', okLabel: string = '', cancelLabel: string = ''): Promise<Object> => {
-                return new Promise((resolve, reject)=> {
+                return new Promise((resolve, reject) => {
                     alertify.okBtn(okLabel || gettext('OK')).cancelBtn(cancelLabel || gettext('Cancel'))
                         .defaultValue(placeholder).prompt(prompt, (value) => value ? resolve(value) : reject(null), () => reject('cancel'));
                 });
             };
 
             service.toast = (text: string, type: string = '', html = false, hideAfter: number = 6000, position: string = 'top right'): Promise<Object> => {
-                return new Promise((resolve)=> {
+                return new Promise((resolve) => {
                     let method = /^(success|error|log)$/.test(type) ? type : 'log';
                     let parent = alertify.maxLogItems(3).closeLogOnClick(true).delay(hideAfter).logPosition(position);
                     let body = html ? text : angular.element('<div></div>').html(text).text();
@@ -59,7 +59,7 @@ module Minute {
             };
 
             service.popup = (template: string, modal: boolean = false, scope: any = null, params: any = {}, type: string = 'dialog'): Promise<Object> => {
-                return new Promise((resolve)=> {
+                return new Promise((resolve) => {
                     let el = document.createElement("div");
                     let parent = document.body;
                     let esc = (ev) => ev.which === 27 ? hide() : false;
@@ -111,6 +111,7 @@ module Minute {
                     }
 
                     $compile(el)(theScope);
+                    $timeout(() => 1);
 
                     let closeButtons: any = el.getElementsByClassName('close-button');
                     if (closeButtons.length > 0) {
@@ -119,7 +120,7 @@ module Minute {
                         }
                     }
 
-                    setTimeout(()=> {
+                    setTimeout(() => {
                         let autoFocus: any = el.getElementsByClassName('auto-focus');
 
                         if (autoFocus.length > 0) {
@@ -140,7 +141,7 @@ module Minute {
             };
 
             service.popupUrl = (url: string, modal: boolean = false, scope: any = null, params: any = {}): Promise<Object> => {
-                return new Promise((resolve, reject)=> {
+                return new Promise((resolve, reject) => {
                     let template = $templateCache.get(url);
 
                     if (template) {

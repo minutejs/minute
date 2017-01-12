@@ -101,6 +101,7 @@ var Minute;
                             scope.hide = hide;
                         }
                         $compile(el)(theScope);
+                        $timeout(function () { return 1; });
                         var closeButtons = el.getElementsByClassName('close-button');
                         if (closeButtons.length > 0) {
                             for (var i = 0; i < closeButtons.length; i++) {

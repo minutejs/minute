@@ -99,5 +99,14 @@ module Minute {
 
             return results;
         };
+
+        static ucFirst = (str: string, lcRemaining: boolean = false) => {
+            return (str || '').charAt(0).toUpperCase() + (lcRemaining ? (str || '').slice(1).toLowerCase() : (str || '').slice(1));
+        };
+
+        static getParameterByName = (name) => {
+            let match = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        }
     }
 }
