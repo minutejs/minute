@@ -25,16 +25,16 @@
     "jquery": "*",
     "emitter": "component/emitter#^1.2.1",
     "es6-promise": "^3.2.2",
-    "angular-gettext": "minutephp/angular-gettext#4a73b89f75ff51b131c1829e276fae11dfda3589"
+    "angular-gettext": "*"
   },
-  "version": "0.0.6",
-  "_release": "0.0.6",
+  "version": "0.0.9",
+  "_release": "0.0.9",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.6",
-    "commit": "f06873fbc1e7a967ab335eca2a2c7193f9161aa1"
+    "tag": "v0.0.9",
+    "commit": "d1dabf88aaaa83fa6ace29fc1ef8e02f51f0313b"
   },
-  "_source": "git://github.com/minutejs/minute.git",
+  "_source": "https://github.com/minutejs/minute.git",
   "_target": "*",
   "_originalSource": "minutejs/minute"
 }
