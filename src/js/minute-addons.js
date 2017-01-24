@@ -175,19 +175,6 @@ var Minute;
         return MinuteCountrySelect;
     }());
     Minute.MinuteCountrySelect = MinuteCountrySelect;
-    var googleSearch = (function () {
-        function googleSearch() {
-            this.restrict = 'A';
-            this.scope = { googleSearch: '@' };
-            this.link = function ($scope, element) {
-                element.attr('href', "http://www.google.com/search?btnI=I'm+Feeling+Lucky&q=" + encodeURI($scope.googleSearch)).attr('target', '_blank');
-            };
-        }
-        googleSearch.instance = function () { return new googleSearch; };
-        return googleSearch;
-    }());
-    Minute.googleSearch = googleSearch;
     angular.module('MinuteAddons', [])
-        .directive('googleSearch', googleSearch.instance)
         .directive('input', MinuteCountrySelect.factory());
 })(Minute || (Minute = {}));

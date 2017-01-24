@@ -174,18 +174,7 @@ module Minute {
         }
     }
 
-    export class googleSearch implements ng.IDirective {
-        restrict = 'A';
-        scope: any = {googleSearch: '@'};
-
-        static instance = () => new googleSearch;
-
-        link = ($scope: any, element: ng.IAugmentedJQuery) => {
-            element.attr('href', "http://www.google.com/search?btnI=I'm+Feeling+Lucky&q=" + encodeURI($scope.googleSearch)).attr('target', '_blank');
-        }
-    }
-
     angular.module('MinuteAddons', [])
-        .directive('googleSearch', googleSearch.instance)
+        //.directive('googleSearch', googleSearch.instance)
         .directive('input', MinuteCountrySelect.factory());
 }
