@@ -66,7 +66,7 @@ module Minute {
                     let stop = (ev) => ev.stopImmediatePropagation();
                     let theScope = getScope(scope);
 
-                    let hide = () => {
+                    let hide = (arg = void 0) => {
                         if ((typeof event !== 'undefined') && event.target && (event.type === 'mousedown') && (event.target['id'] === 'global-zeroclipboard-flash-bridge')) {
                             return;
                         }
@@ -90,7 +90,7 @@ module Minute {
                                 popups.splice(index, 1);
                             }
 
-                            $timeout(resolve);
+                            $timeout(() => resolve(arg));
                         } finally {
                             theScope.$destroy();
                         }

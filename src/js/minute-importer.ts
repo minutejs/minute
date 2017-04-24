@@ -4,10 +4,10 @@ module Minute {
     export class MinuteImporter implements ng.IDirective {
         restrict = 'E';
         replace = true;
-        scope = {into: '=?', data: '=', onChange: '&'};
+        scope: any = {into: '=?', data: '=', onChange: '&'};
 
         static instance(): ng.IDirective {
-            return new MinuteImporter;
+            return new MinuteImporter();
         }
 
         link = ($scope: any, elements: ng.IAugmentedJQuery) => {

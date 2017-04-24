@@ -101,13 +101,13 @@ var Minute;
         function MinuteListSorter($timeout) {
             this.$timeout = $timeout;
             this.restrict = 'A';
-            this.scope = { 'minuteListSorter': '=?', sortIndex: '@', selector: '@', onOrder: '=?' };
+            this.scope = { 'minuteListSorter': '=?', sortIndex: '@', selector: '@', onOrder: '=?', axis: '@' };
             this.link = function ($scope, element, attrs) {
                 var selector = $scope.selector || '> [ng-repeat]';
                 var sortKey = $scope.sortIndex || 'priority';
                 var ordered;
                 element.sortable({
-                    axis: "y",
+                    axis: $scope.axis || "y",
                     items: selector,
                     start: function () {
                         ordered = [];

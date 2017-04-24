@@ -165,17 +165,18 @@ module Minute {
         };
 
         dump = () => {
-            var result = this.serialize(true, true);
+            var result: any = this.serialize(true, true);
 
             for (var i in this) {
                 if (this.hasOwnProperty(i) && (i != 'parent') && ((this[i] instanceof Item) || (this[i] instanceof Items))) {
-                    result[i] = this[i].dump();
+                    let iter: any = this[i];
+                    result[i] = iter.dump();
                 }
             }
 
             return Utils.copy(this._data.dump, result);
         };
-
+        
         private getParentOrDie = (caller:string):Items<Item> => {
             if (!this.parent) {
                 throw new Error('Item must have a parent for ' + caller);

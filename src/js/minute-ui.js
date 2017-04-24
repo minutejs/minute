@@ -67,7 +67,8 @@ var Minute;
                         var esc = function (ev) { return ev.which === 27 ? hide() : false; };
                         var stop = function (ev) { return ev.stopImmediatePropagation(); };
                         var theScope = getScope(scope);
-                        var hide = function () {
+                        var hide = function (arg) {
+                            if (arg === void 0) { arg = void 0; }
                             if ((typeof event !== 'undefined') && event.target && (event.type === 'mousedown') && (event.target['id'] === 'global-zeroclipboard-flash-bridge')) {
                                 return;
                             }
@@ -85,7 +86,7 @@ var Minute;
                                 if (index !== -1) {
                                     popups.splice(index, 1);
                                 }
-                                $timeout(resolve);
+                                $timeout(function () { return resolve(arg); });
                             }
                             finally {
                                 theScope.$destroy();

@@ -54,52 +54,52 @@ var Minute;
             }
             return name;
         };
-        Utils.basename = function (url) { return angular.isString(url) ? url.split('/').pop() : ''; };
-        Utils.randomString = function (len, prefix, possible) {
-            if (len === void 0) { len = 16; }
-            if (prefix === void 0) { prefix = ''; }
-            if (possible === void 0) { possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"; }
-            while (prefix.length < len) {
-                prefix += possible.charAt(Math.floor(Math.random() * possible.length));
-            }
-            return prefix;
-        };
-        Utils.findWhere = function (obj, matchers) {
-            if (obj && matchers) {
-                for (var _i = 0, obj_1 = obj; _i < obj_1.length; _i++) {
-                    var item = obj_1[_i];
-                    var pass = true;
-                    for (var prop in matchers) {
-                        if (matchers.hasOwnProperty(prop)) {
-                            pass = pass && item.hasOwnProperty(prop) && !!matchers[prop] && (item[prop] === matchers[prop]);
-                        }
-                    }
-                    if (pass) {
-                        return item;
-                    }
-                }
-            }
-            return false;
-        };
-        Utils.enabledKeys = function (obj, match) {
-            if (match === void 0) { match = null; }
-            var results = [];
-            angular.forEach(obj, function (v, k) {
-                if ((match === null && !!v) || (v === match)) {
-                    results.push(k);
-                }
-            });
-            return results;
-        };
-        Utils.ucFirst = function (str, lcRemaining) {
-            if (lcRemaining === void 0) { lcRemaining = false; }
-            return (str || '').charAt(0).toUpperCase() + (lcRemaining ? (str || '').slice(1).toLowerCase() : (str || '').slice(1));
-        };
-        Utils.getParameterByName = function (name) {
-            var match = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-        };
         return Utils;
     }());
+    Utils.basename = function (url) { return angular.isString(url) ? url.split('/').pop() : ''; };
+    Utils.randomString = function (len, prefix, possible) {
+        if (len === void 0) { len = 16; }
+        if (prefix === void 0) { prefix = ''; }
+        if (possible === void 0) { possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"; }
+        while (prefix.length < len) {
+            prefix += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return prefix;
+    };
+    Utils.findWhere = function (obj, matchers) {
+        if (obj && matchers) {
+            for (var _i = 0, obj_1 = obj; _i < obj_1.length; _i++) {
+                var item = obj_1[_i];
+                var pass = true;
+                for (var prop in matchers) {
+                    if (matchers.hasOwnProperty(prop)) {
+                        pass = pass && item.hasOwnProperty(prop) && !!matchers[prop] && (item[prop] === matchers[prop]);
+                    }
+                }
+                if (pass) {
+                    return item;
+                }
+            }
+        }
+        return false;
+    };
+    Utils.enabledKeys = function (obj, match) {
+        if (match === void 0) { match = null; }
+        var results = [];
+        angular.forEach(obj, function (v, k) {
+            if ((match === null && !!v) || (v === match)) {
+                results.push(k);
+            }
+        });
+        return results;
+    };
+    Utils.ucFirst = function (str, lcRemaining) {
+        if (lcRemaining === void 0) { lcRemaining = false; }
+        return (str || '').charAt(0).toUpperCase() + (lcRemaining ? (str || '').slice(1).toLowerCase() : (str || '').slice(1));
+    };
+    Utils.getParameterByName = function (name) {
+        var match = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    };
     Minute.Utils = Utils;
 })(Minute || (Minute = {}));

@@ -16,7 +16,7 @@ var Minute;
             };
         }
         MinuteImporter.instance = function () {
-            return new MinuteImporter;
+            return new MinuteImporter();
         };
         return MinuteImporter;
     }());

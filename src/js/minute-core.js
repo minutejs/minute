@@ -1,9 +1,14 @@
 ///<reference path="../../_all.d.ts"/>
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var Minute;
 (function (Minute) {
     Minute.Models = {};
@@ -11,9 +16,9 @@ var Minute;
     };
     var Item = (function () {
         function Item(parent, attrs) {
-            var _this = this;
             if (parent === void 0) { parent = null; }
             if (attrs === void 0) { attrs = []; }
+            var _this = this;
             this.parent = parent;
             this.attrs = attrs;
             this.lastSave = '{}';
@@ -166,7 +171,8 @@ var Minute;
                 var result = _this.serialize(true, true);
                 for (var i in _this) {
                     if (_this.hasOwnProperty(i) && (i != 'parent') && ((_this[i] instanceof Item) || (_this[i] instanceof Items))) {
-                        result[i] = _this[i].dump();
+                        var iter = _this[i];
+                        result[i] = iter.dump();
                     }
                 }
                 return Minute.Utils.copy(_this._data.dump, result);
@@ -184,28 +190,27 @@ var Minute;
     var Items = (function (_super) {
         __extends(Items, _super);
         function Items(itemType, parent, alias, modelClass, pk, joinPk) {
-            var _this = this;
             if (parent === void 0) { parent = null; }
             if (alias === void 0) { alias = ''; }
             if (modelClass === void 0) { modelClass = ''; }
             if (pk === void 0) { pk = ''; }
             if (joinPk === void 0) { joinPk = ''; }
-            _super.call(this);
-            this.itemType = itemType;
-            this.parent = parent;
-            this.alias = alias;
-            this.modelClass = modelClass;
-            this.pk = pk;
-            this.joinPk = joinPk;
-            this.metadata = { offset: 0, total: 0, limit: 0 };
-            this.create = function (data) {
+            var _this = _super.call(this) || this;
+            _this.itemType = itemType;
+            _this.parent = parent;
+            _this.alias = alias;
+            _this.modelClass = modelClass;
+            _this.pk = pk;
+            _this.joinPk = joinPk;
+            _this.metadata = { offset: 0, total: 0, limit: 0 };
+            _this.create = function (data) {
                 if (data === void 0) { data = {}; }
                 var item = new _this.itemType(_this);
                 _this.push(item);
                 item.load(data);
                 return item;
             };
-            this.load = function (data) {
+            _this.load = function (data) {
                 if (data) {
                     _this.setMetadata(data.metadata || {}, false);
                     for (var _i = 0, _a = data.items || []; _i < _a.length; _i++) {
@@ -215,13 +220,13 @@ var Minute;
                 }
                 return _this;
             };
-            this.cloneItem = function (item) {
+            _this.cloneItem = function (item) {
                 var copy = item.clone();
                 var newItem = _this.create(copy.serialize(true, true));
                 delete (newItem[_this.joinPk]);
                 return newItem;
             };
-            this.saveAll = function (successMsg, failureMsg, selection) {
+            _this.saveAll = function (successMsg, failureMsg, selection) {
                 if (successMsg === void 0) { successMsg = void 0; }
                 if (failureMsg === void 0) { failureMsg = void 0; }
                 var items = (!selection ? _this.toArray() : (selection instanceof Item ? [selection] : selection));
@@ -253,7 +258,7 @@ var Minute;
                 });
                 return deferred.promise;
             };
-            this.removeAll = function (successMsg, failureMsg, selection) {
+            _this.removeAll = function (successMsg, failureMsg, selection) {
                 if (successMsg === void 0) { successMsg = void 0; }
                 if (failureMsg === void 0) { failureMsg = void 0; }
                 var items = (!selection ? _this.toArray() : (selection instanceof Item ? [selection] : selection));
@@ -277,7 +282,7 @@ var Minute;
                 });
                 return deferred.promise;
             };
-            this.removeConfirmAll = function (successMsg, failureMsg, confirmTitle, confirmText, selection) {
+            _this.removeConfirmAll = function (successMsg, failureMsg, confirmTitle, confirmText, selection) {
                 if (successMsg === void 0) { successMsg = void 0; }
                 if (failureMsg === void 0) { failureMsg = void 0; }
                 if (confirmTitle === void 0) { confirmTitle = void 0; }
@@ -289,7 +294,7 @@ var Minute;
                 promise.then(function () { return _this.removeAll(successMsg, failureMsg, items).then(deferred.resolve, deferred.reject); }, function () { return deferred.reject({ self: _this }); });
                 return deferred.promise;
             };
-            this.reloadAll = function (replace, singleItem) {
+            _this.reloadAll = function (replace, singleItem) {
                 if (singleItem === void 0) { singleItem = null; }
                 var start = singleItem || _this.parent;
                 var metadataChain = Minute.Utils.keyValue(_this.alias, _this.metadata);
@@ -322,51 +327,51 @@ var Minute;
                 });
                 return deferred.promise;
             };
-            this.getOffset = function () {
+            _this.getOffset = function () {
                 return _this.metadata.offset || 0;
             };
-            this.getTotalItems = function () {
+            _this.getTotalItems = function () {
                 return _this.metadata.total || 0;
             };
-            this.getItemsPerPage = function () {
+            _this.getItemsPerPage = function () {
                 return _this.metadata.limit || 1;
             };
-            this.getCurrentPage = function () {
+            _this.getCurrentPage = function () {
                 return 1 + Math.floor(_this.getOffset() / _this.getItemsPerPage());
             };
-            this.getTotalPages = function () {
+            _this.getTotalPages = function () {
                 return Math.ceil(_this.getTotalItems() / _this.getItemsPerPage());
             };
-            this.getOrder = function () {
+            _this.getOrder = function () {
                 return (_this.metadata.order || '').toLowerCase();
             };
-            this.getSearch = function () {
+            _this.getSearch = function () {
                 return _this.metadata.search || null;
             };
-            this.setItemsPerPage = function (limit, reload) {
+            _this.setItemsPerPage = function (limit, reload) {
                 if (reload === void 0) { reload = true; }
                 return _this.setMetadata({ limit: parseInt(limit) }, reload);
             };
-            this.setCurrentPage = function (num, reload) {
+            _this.setCurrentPage = function (num, reload) {
                 if (reload === void 0) { reload = true; }
                 var offset = Math.min(_this.getTotalItems(), Math.max(0, (parseInt(num) - 1)) * _this.getItemsPerPage());
                 return _this.setMetadata({ offset: offset }, reload);
             };
-            this.setOrder = function (order, reload) {
+            _this.setOrder = function (order, reload) {
                 if (reload === void 0) { reload = true; }
                 return _this.setMetadata({ order: order }, reload);
             };
-            this.toggleOrder = function (reload) {
+            _this.toggleOrder = function (reload) {
                 if (reload === void 0) { reload = true; }
                 var matches = /(\w+)\s*(asc|desc)?/i.exec(_this.getOrder() || _this.pk);
                 var newOrder = (matches[1] || _this.pk) + ' ' + (/desc/i.test(matches[2]) ? 'asc' : 'desc');
                 return _this.setOrder(newOrder, reload);
             };
-            this.setSearch = function (search, reload) {
+            _this.setSearch = function (search, reload) {
                 if (reload === void 0) { reload = true; }
                 return _this.setMetadata({ offset: 0, search: search }, reload);
             };
-            this.setMetadata = function (metadata, reload) {
+            _this.setMetadata = function (metadata, reload) {
                 var lastMetaData = JSON.stringify(_this.metadata);
                 var newMetaData = JSON.stringify(Minute.Utils.extend(_this.metadata, metadata));
                 if (reload && (lastMetaData !== newMetaData)) {
@@ -374,10 +379,10 @@ var Minute;
                 }
                 return _this;
             };
-            this.dump = function () {
+            _this.dump = function () {
                 return _this.map(function (item) { return item.dump(); });
             };
-            this.loadPrevPage = function (replace) {
+            _this.loadPrevPage = function (replace) {
                 if (replace === void 0) { replace = true; }
                 if (_this.hasLessPages()) {
                     _this.setCurrentPage(_this.getCurrentPage() - 1, replace);
@@ -386,7 +391,7 @@ var Minute;
                     console.log("error: already on first page");
                 }
             };
-            this.loadNextPage = function (replace) {
+            _this.loadNextPage = function (replace) {
                 if (replace === void 0) { replace = true; }
                 if (_this.hasMorePages()) {
                     _this.setCurrentPage(_this.getCurrentPage() + 1, replace);
@@ -395,12 +400,13 @@ var Minute;
                     console.log("error: already on last page: ", _this.getCurrentPage(), _this.getTotalPages());
                 }
             };
-            this.hasMorePages = function () {
+            _this.hasMorePages = function () {
                 return _this.getCurrentPage() < _this.getTotalPages();
             };
-            this.hasLessPages = function () {
+            _this.hasLessPages = function () {
                 return _this.getCurrentPage() > 1;
             };
+            return _this;
         }
         Items.prototype.toArray = function () {
             return this.map(function (item) { return item; });

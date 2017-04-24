@@ -131,7 +131,7 @@ module Minute {
     //sort a list using jQueryUi
     export class MinuteListSorter implements ng.IDirective {
         restrict = 'A';
-        scope: any = {'minuteListSorter': '=?', sortIndex: '@', selector: '@', onOrder: '=?'};
+        scope: any = {'minuteListSorter': '=?', sortIndex: '@', selector: '@', onOrder: '=?', axis: '@'};
 
         constructor(private $timeout: ng.ITimeoutService) {
         }
@@ -148,7 +148,7 @@ module Minute {
             let ordered;
 
             element.sortable({
-                axis: "y",
+                axis: $scope.axis || "y",
                 items: selector,
                 start: () => {
                     ordered = [];
