@@ -3,7 +3,7 @@ module Minute {
     export class Utils {
         static copy(o, u) {
             if (o && u) {
-                var keysO = Object.keys(o), keysU = Object.keys(u);
+                let keysO = Object.keys(o), keysU = Object.keys(u);
 
                 keysO.forEach(function (k) {
                     if (-1 === keysU.indexOf(k)) {
@@ -14,7 +14,7 @@ module Minute {
                 keysU.forEach(function (k) {
                     if (typeof u[k] === 'object') {
                         if (typeof o[k] !== 'object') {
-                            o[k] = {};
+                            o[k] = u[k] instanceof Array ? [] : {};
                         }
 
                         Utils.copy(o[k], u[k]);
@@ -102,6 +102,28 @@ module Minute {
 
         static ucFirst = (str: string, lcRemaining: boolean = false) => {
             return (str || '').charAt(0).toUpperCase() + (lcRemaining ? (str || '').slice(1).toLowerCase() : (str || '').slice(1));
+        };
+
+        static getObjValue = (obj, path, def = null) => {
+            return path.split(".").reduce(function (o, x) {
+                    return (typeof o == "undefined" || o === null) ? o : o[x];
+                }, obj) || def;
+        };
+
+        static setObjValue = (obj, path, value) => {
+            if (path.indexOf('.') != -1) {
+                path = path.split('.');
+
+                for (let i = 0, l = path.length; i < l; i++) {
+                    if (typeof(obj[path[i]]) !== 'object') {
+                        obj[path[i - 1]][path[i]] = value;
+                    }
+                }
+            } else {
+                obj[path] = value;
+            }
+
+            return obj;
         };
 
         static getParameterByName = (name) => {

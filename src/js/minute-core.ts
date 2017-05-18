@@ -2,7 +2,7 @@
 
 module Minute {
     export var Models = {};
-    export var Loader:Function = () => {
+    export var Loader: Function = () => {
     };
 
     export class Item {
@@ -10,10 +10,10 @@ module Minute {
         private _data = {serialized: {}, dump: {}};
         public metadata = {};
 
-        constructor(public parent:Items<Item> = null, public attrs:Array<string> = []) {
+        constructor(public parent: Items<Item> = null, public attrs: Array<string> = []) {
         }
 
-        attr = (name:string, value = void 0):Item => {
+        attr = (name: string, value = void 0): Item => {
             if (value === void 0) {
                 return this[name];
             } else if (this.attrs.indexOf(name) !== -1) {
@@ -61,7 +61,7 @@ module Minute {
             return result;
         };
 
-        serialize = (ignoreUndefined = false, ignoreJoinKey = false):Object => {
+        serialize = (ignoreUndefined = false, ignoreJoinKey = false): Object => {
             let serialized = {};
             let parent = this.parent;
 
@@ -81,7 +81,7 @@ module Minute {
             }
 
             for (let key of this.attrs) {
-                let value:any = this.attr(key);
+                let value: any = this.attr(key);
 
                 if ((value instanceof Items) || (value instanceof Item)) {
                     throw new Error("Item cannot have an attribute and child of same name: " + key);
@@ -101,7 +101,7 @@ module Minute {
             return Utils.copy(this._data.serialized, serialized);
         };
 
-        load = (data:Object) => {
+        load = (data: Object) => {
             let loaded = false;
 
             for (let key in data) {
@@ -126,11 +126,11 @@ module Minute {
             return this;
         };
 
-        dirty = ():boolean => {
+        dirty = (): boolean => {
             return JSON.stringify(this.serialize(true, true)) != this.lastSave;
         };
 
-        clone = ():Item => {
+        clone = (): Item => {
             var data = JSON.parse(JSON.stringify(this.serialize()));
 
             ['created_at', this.parent.pk].forEach(function (key) {
@@ -140,25 +140,25 @@ module Minute {
             return this.parent.create(data);
         };
 
-        save = (successMsg:string = void 0, failureMsg:string = void 0):Promise<Object> => {
+        save = (successMsg: string = void 0, failureMsg: string = void 0): Promise<Object> => {
             let parent = this.getParentOrDie('save');
 
             return parent.saveAll(successMsg, failureMsg, this);
         };
 
-        remove = (successMsg:string = void 0, failureMsg:string = void 0):Promise<Object> => {
+        remove = (successMsg: string = void 0, failureMsg: string = void 0): Promise<Object> => {
             let parent = this.getParentOrDie('remove');
 
             return parent.removeAll(successMsg, failureMsg, this);
         };
 
-        removeConfirm = (confirmTitle:string = void 0, confirmText:string = void 0, successMsg:string = void 0, failureMsg:string = void 0) => {
+        removeConfirm = (confirmTitle: string = void 0, confirmText: string = void 0, successMsg: string = void 0, failureMsg: string = void 0) => {
             let parent = this.getParentOrDie('removeConfirm');
 
             return parent.removeConfirmAll(confirmTitle, confirmText, successMsg, failureMsg, this);
         };
 
-        reload = ():Promise<Object> => {
+        reload = (): Promise<Object> => {
             let parent = this.getParentOrDie('reload');
 
             return parent.reloadAll(true, this);
@@ -176,8 +176,8 @@ module Minute {
 
             return Utils.copy(this._data.dump, result);
         };
-        
-        private getParentOrDie = (caller:string):Items<Item> => {
+
+        private getParentOrDie = (caller: string): Items<Item> => {
             if (!this.parent) {
                 throw new Error('Item must have a parent for ' + caller);
             }
@@ -187,15 +187,15 @@ module Minute {
     }
 
     export class Items<T extends Item> extends Array<T> {
-        public metadata:Metadata = {offset: 0, total: 0, limit: 0};
+        public metadata: Metadata = {offset: 0, total: 0, limit: 0};
 
-        constructor(protected itemType:{ new (parent:Items<T>):T; }, public parent:Item = null, public alias:string = '',
-                    public modelClass:string = '', public pk:string = '', public joinPk:string = '') {
+        constructor(protected itemType: { new (parent: Items<T>): T; }, public parent: Item = null, public alias: string = '',
+                    public modelClass: string = '', public pk: string = '', public joinPk: string = '') {
             super();
         }
 
-        create = (data = {}):T => {
-            let item:T = new this.itemType(this);
+        create = (data = {}): T => {
+            let item: T = new this.itemType(this);
 
             this.push(item);
             item.load(data);
@@ -203,7 +203,7 @@ module Minute {
             return item;
         };
 
-        load = (data:{metadata:Metadata, items:Array<Object>}) => {
+        load = (data: { metadata: Metadata, items: Array<Object> }) => {
             if (data) {
                 this.setMetadata(data.metadata || {}, false);
 
@@ -215,7 +215,7 @@ module Minute {
             return this;
         };
 
-        cloneItem = (item:T):T => {
+        cloneItem = (item: T): T => {
             let copy = item.clone();
             let newItem = this.create(copy.serialize(true, true));
 
@@ -224,7 +224,7 @@ module Minute {
             return newItem;
         };
 
-        saveAll = (successMsg:string = void 0, failureMsg:string = void 0, selection:T|Array<T>):Promise<Object> => {
+        saveAll = (successMsg: string = void 0, failureMsg: string = void 0, selection: T | Array<T>): Promise<Object> => {
             let items = <Array<T>> (!selection ? this.toArray() : (selection instanceof Item ? [selection] : selection));
             let unsaved = this.filterItemsBy(items, this.pk, true);
             let delegate = new Delegator();
@@ -261,7 +261,7 @@ module Minute {
             return deferred.promise;
         };
 
-        removeAll = (successMsg:string = void 0, failureMsg:string = void 0, selection:T|Array<T>):Promise<Object> => {
+        removeAll = (successMsg: string = void 0, failureMsg: string = void 0, selection: T | Array<T>): Promise<Object> => {
             let items = <Array<T>> (!selection ? this.toArray() : (selection instanceof Item ? [selection] : selection));
             let saved = this.filterItemsBy(items, this.pk, false);
 
@@ -290,7 +290,7 @@ module Minute {
             return deferred.promise;
         };
 
-        removeConfirmAll = (successMsg:string = void 0, failureMsg:string = void 0, confirmTitle:string = void 0, confirmText:string = void 0, selection:T|Array<T>):Promise<Object> => {
+        removeConfirmAll = (successMsg: string = void 0, failureMsg: string = void 0, confirmTitle: string = void 0, confirmText: string = void 0, selection: T | Array<T>): Promise<Object> => {
             let items = <Array<T>> (!selection ? this.toArray() : (selection instanceof Item ? [selection] : selection));
             let delegate = new Delegator();
             let deferred = delegate.defer();
@@ -301,7 +301,7 @@ module Minute {
             return deferred.promise;
         };
 
-        reloadAll = (replace:boolean, singleItem:Item = null):Promise<Object> => {
+        reloadAll = (replace: boolean, singleItem: Item = null): Promise<Object> => {
             let start = singleItem || this.parent;
             let metadataChain = Utils.keyValue(this.alias, this.metadata);
 
@@ -341,74 +341,78 @@ module Minute {
             return deferred.promise;
         };
 
-        getOffset = ():number => {
+        getOffset = (): number => {
             return this.metadata.offset || 0;
         };
 
-        getTotalItems = ():number => {
+        getTotalItems = (): number => {
             return this.metadata.total || 0;
         };
 
-        getItemsPerPage = ():number => {
+        getItemsPerPage = (): number => {
             return this.metadata.limit || 1;
         };
 
-        getCurrentPage = ():number => {
+        getCurrentPage = (): number => {
             return 1 + Math.floor(this.getOffset() / this.getItemsPerPage());
         };
 
-        getTotalPages = ():number => {
+        getTotalPages = (): number => {
             return Math.ceil(this.getTotalItems() / this.getItemsPerPage());
         };
 
-        getOrder = ():string => {
+        getOrder = (): string => {
             return (this.metadata.order || '').toLowerCase();
         };
 
-        getSearch = ():Search => {
+        getSearch = (): Search => {
             return this.metadata.search || null;
         };
 
-        setItemsPerPage = (limit, reload:boolean = true) => {
+        setItemsPerPage = (limit, reload: boolean = true) => {
             return this.setMetadata({limit: parseInt(limit)}, reload);
         };
 
-        setCurrentPage = (num, reload:boolean = true) => {
+        setCurrentPage = (num, reload: boolean = true) => {
             let offset = Math.min(this.getTotalItems(), Math.max(0, (parseInt(num) - 1)) * this.getItemsPerPage());
             return this.setMetadata({offset: offset}, reload);
         };
 
-        setOrder = (order:string, reload:boolean = true) => {
+        setOrder = (order: string, reload: boolean = true) => {
             return this.setMetadata({order: order}, reload);
         };
 
-        toggleOrder = (reload:boolean = true) => {
+        toggleOrder = (reload: boolean = true) => {
             let matches = /(\w+)\s*(asc|desc)?/i.exec(this.getOrder() || this.pk);
             let newOrder = (matches[1] || this.pk) + ' ' + (/desc/i.test(matches[2]) ? 'asc' : 'desc');
 
             return this.setOrder(newOrder, reload);
         };
 
-        setSearch = (search:Search, reload:boolean = true) => { //operator also supports IN NATURAL LANGUAGE MODE op
+        setSearch = (search: Search, reload: boolean = true) => { //operator also supports IN NATURAL LANGUAGE MODE op
             return this.setMetadata({offset: 0, search: search}, reload);
         };
 
-        setMetadata = (metadata:Metadata, reload:boolean) => {
-            var lastMetaData = JSON.stringify(this.metadata);
-            var newMetaData = JSON.stringify(Utils.extend(this.metadata, metadata));
+        setMetadata = (metadata: Metadata, reload: boolean) => {
+            let lastMetaData = JSON.stringify(this.metadata);
+            let newMetaData = JSON.stringify(Utils.extend(this.metadata, metadata));
+            let delegate = new Delegator();
+            let deferred = delegate.defer();
 
             if (reload && (lastMetaData !== newMetaData)) {
-                this.reloadAll(true);
+                this.reloadAll(true).then((result) => deferred.resolve(result));
+            } else {
+                deferred.resolve({});
             }
 
-            return this;
+            return deferred.promise;
         };
 
         dump = () => {
             return this.map((item) => item.dump());
         };
 
-        loadPrevPage = (replace:boolean = true) => {
+        loadPrevPage = (replace: boolean = true) => {
             if (this.hasLessPages()) {
                 this.setCurrentPage(this.getCurrentPage() - 1, replace);
             } else {
@@ -416,7 +420,7 @@ module Minute {
             }
         };
 
-        loadNextPage = (replace:boolean = true) => {
+        loadNextPage = (replace: boolean = true) => {
             if (this.hasMorePages()) {
                 this.setCurrentPage(this.getCurrentPage() + 1, replace);
             } else {
@@ -424,19 +428,19 @@ module Minute {
             }
         };
 
-        hasMorePages = ():boolean => {
+        hasMorePages = (): boolean => {
             return this.getCurrentPage() < this.getTotalPages();
         };
 
-        hasLessPages = ():boolean => {
+        hasLessPages = (): boolean => {
             return this.getCurrentPage() > 1;
         };
 
-        private toArray():Array<Item> { //javascript converts our class into object even though it "extends" an Array :(
+        private toArray(): Array<Item> { //javascript converts our class into object even though it "extends" an Array :(
             return this.map((item) => item);
         }
 
-        private filterItemsBy(items:Array<Item>, attr:string, reverse:boolean):Array<Item> {
+        private filterItemsBy(items: Array<Item>, attr: string, reverse: boolean): Array<Item> {
             let filter = (item) => item.parent && !!item.attr(attr);
             return items.filter((item) => reverse ? !filter(item) : filter(item));
         }
@@ -445,4 +449,5 @@ module Minute {
          return value ? this.toArray().filter((item) => item.attr(attr) === value) : null;
          }*/
     }
+
 }

@@ -20,7 +20,7 @@ var Minute;
                         var promise = $http.post(parent.metadata.url || '', { cmd: 'save', model: parent.modelClass, alias: parent.alias, items: serialized });
                         promise.then(deferred.resolve, deferred.reject);
                         promise.then(function () { return log(args.successMsg, 'success'); }, function (e) { return log(args.failureMsg || (args.failureMsg !== false && args.successMsg ? errorStr(e) : ''), 'error'); });
-                        promise["finally"](service.digest);
+                        promise.finally(service.digest);
                     }
                     else {
                         deferred.resolve({ data: { items: [] } });
@@ -35,7 +35,7 @@ var Minute;
                         var promise = $http.post(parent.metadata.url || '', { cmd: 'remove', model: parent.modelClass, alias: parent.alias, items: serialized });
                         promise.then(deferred.resolve, deferred.reject);
                         promise.then(function () { return log(args.successMsg, 'success'); }, function () { return log(args.failureMsg || (args.failureMsg !== false && args.successMsg ? 'Error' : ''), 'error'); });
-                        promise["finally"](service.digest);
+                        promise.finally(service.digest);
                     }
                     else {
                         deferred.resolve({ data: { items: [] } });
@@ -50,7 +50,7 @@ var Minute;
                     var metadataChain = args.metadata || {};
                     var promise = $http.get(parent.metadata.url || '', { params: { cmd: 'reload', model: parent.modelClass, alias: parent.alias, metadata: metadataChain } });
                     promise.then(deferred.resolve, deferred.reject);
-                    promise["finally"](service.digest);
+                    promise.finally(service.digest);
                 };
                 service.digest = function () {
                     $timeout.cancel(lastTimeout);

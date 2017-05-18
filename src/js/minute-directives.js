@@ -101,14 +101,15 @@ var Minute;
         function MinuteListSorter($timeout) {
             this.$timeout = $timeout;
             this.restrict = 'A';
-            this.scope = { 'minuteListSorter': '=?', sortIndex: '@', selector: '@', onOrder: '=?', axis: '@' };
+            this.scope = { 'minuteListSorter': '=?', sortIndex: '@', selector: '@', onOrder: '=?', uiOptions: '=?' };
             this.link = function ($scope, element, attrs) {
                 var selector = $scope.selector || '> [ng-repeat]';
                 var sortKey = $scope.sortIndex || 'priority';
                 var ordered;
-                element.sortable({
-                    axis: $scope.axis || "y",
+                element.sortable(angular.extend({
+                    axis: "y",
                     items: selector,
+                    cursor: "move",
                     start: function () {
                         ordered = [];
                         for (var _i = 0, _a = $scope.minuteListSorter; _i < _a.length; _i++) {
@@ -116,7 +117,7 @@ var Minute;
                             ordered.push(item);
                         }
                         for (var j = 0; j < ordered.length - 1; j++) {
-                            for (var i = 0, swapping; i < ordered.length - 1; i++) {
+                            for (var i = 0, swapping = void 0; i < ordered.length - 1; i++) {
                                 if ((ordered[i][sortKey] || 0) > (ordered[i + 1][sortKey] || 0)) {
                                     swapping = ordered[i + 1];
                                     ordered[i + 1] = ordered[i];
@@ -148,7 +149,7 @@ var Minute;
                         }
                         $scope.$apply();
                     }
-                });
+                }, $scope.uiOptions));
                 $scope.$watch('minuteListSorter', function (arr) { return angular.forEach(arr || [], function (item) { return item[sortKey] = item[sortKey] || 0; }); });
             };
         }

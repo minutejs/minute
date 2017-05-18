@@ -131,13 +131,13 @@ module Minute {
     //sort a list using jQueryUi
     export class MinuteListSorter implements ng.IDirective {
         restrict = 'A';
-        scope: any = {'minuteListSorter': '=?', sortIndex: '@', selector: '@', onOrder: '=?', axis: '@'};
+        scope: any = {'minuteListSorter': '=?', sortIndex: '@', selector: '@', onOrder: '=?', uiOptions: '=?'};
 
         constructor(private $timeout: ng.ITimeoutService) {
         }
 
         static factory(): ng.IDirectiveFactory {
-            var directive: ng.IDirectiveFactory = ($timeout: ng.ITimeoutService) => new MinuteListSorter($timeout);
+            let directive: ng.IDirectiveFactory = ($timeout: ng.ITimeoutService) => new MinuteListSorter($timeout);
             directive.$inject = ["$timeout"];
             return directive;
         }
@@ -147,18 +147,19 @@ module Minute {
             let sortKey = $scope.sortIndex || 'priority';
             let ordered;
 
-            element.sortable({
-                axis: $scope.axis || "y",
+            element.sortable(angular.extend({
+                axis: "y",
                 items: selector,
+                cursor: "move",
                 start: () => {
                     ordered = [];
 
-                    for (var item of $scope.minuteListSorter) {
+                    for (let item of $scope.minuteListSorter) {
                         ordered.push(item);
                     }
 
-                    for (var j = 0; j < ordered.length - 1; j++) { //javascript's Array.sort() triggers scope.$apply
-                        for (var i = 0, swapping; i < ordered.length - 1; i++) {
+                    for (let j = 0; j < ordered.length - 1; j++) { //javascript's Array.sort() triggers scope.$apply
+                        for (let i = 0, swapping; i < ordered.length - 1; i++) {
                             if ((ordered[i][sortKey] || 0) > (ordered[i + 1][sortKey] || 0)) {
                                 swapping = ordered[i + 1];
                                 ordered[i + 1] = ordered[i];
@@ -193,7 +194,7 @@ module Minute {
 
                     $scope.$apply();
                 }
-            });
+            }, $scope.uiOptions));
             $scope.$watch('minuteListSorter', (arr) => angular.forEach(arr || [], (item) => item[sortKey] = item[sortKey] || 0));
         }
     }
