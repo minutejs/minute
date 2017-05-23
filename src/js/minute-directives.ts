@@ -265,8 +265,8 @@ module Minute {
             };
 
             $scope.addUrl = () => {
-                this.$ui.prompt(this.gettext('Please copy-paste the URL to import'), 'http://', this.gettext('Import URL')).then((url) => {
-                    $scope.complete([url]);
+                this.$ui.prompt(this.gettext('Please copy-paste the URL to import'), 'https://', this.gettext('Import URL')).then((url: string) => {
+                    $scope.complete([(url || '').replace(/^.*?:\/\//, '//')]);
                 });
             };
 

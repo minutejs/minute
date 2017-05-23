@@ -193,8 +193,8 @@ var Minute;
                     uploader.click();
                 };
                 $scope.addUrl = function () {
-                    _this.$ui.prompt(_this.gettext('Please copy-paste the URL to import'), 'http://', _this.gettext('Import URL')).then(function (url) {
-                        $scope.complete([url]);
+                    _this.$ui.prompt(_this.gettext('Please copy-paste the URL to import'), 'https://', _this.gettext('Import URL')).then(function (url) {
+                        $scope.complete([(url || '').replace(/^.*?:\/\//, '//')]);
                     });
                 };
                 $scope.start = function () {
