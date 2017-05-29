@@ -225,6 +225,7 @@ var Minute;
             this.saveAll = function (successMsg, failureMsg, selection) {
                 if (successMsg === void 0) { successMsg = void 0; }
                 if (failureMsg === void 0) { failureMsg = void 0; }
+                console.log("this: ", _this);
                 var items = (!selection ? _this.toArray() : (selection instanceof Item ? [selection] : selection));
                 var unsaved = _this.filterItemsBy(items, _this.pk, true);
                 var delegate = new Minute.Delegator();
@@ -407,15 +408,31 @@ var Minute;
             this.hasLessPages = function () {
                 return _this.getCurrentPage() > 1;
             };
+            this.toArray = function () {
+                return _this.map(function (item) { return item; });
+            };
+            this.filterItemsBy = function (items, attr, reverse) {
+                var filter = function (item) { return item.parent && !!item.attr(attr); };
+                return items.filter(function (item) { return reverse ? !filter(item) : filter(item); });
+            };
         }
-        Items.prototype.toArray = function () {
-            return this.map(function (item) { return item; });
-        };
-        Items.prototype.filterItemsBy = function (items, attr, reverse) {
-            var filter = function (item) { return item.parent && !!item.attr(attr); };
-            return items.filter(function (item) { return reverse ? !filter(item) : filter(item); });
-        };
         return Items;
     }(Array));
     Minute.Items = Items;
+    var ExampleArray = (function (_super) {
+        __extends(ExampleArray, _super);
+        function ExampleArray() {
+            _super.apply(this, arguments);
+        }
+        return ExampleArray;
+    }(Items));
+    Minute.ExampleArray = ExampleArray;
+    var ExampleItem = (function (_super) {
+        __extends(ExampleItem, _super);
+        function ExampleItem() {
+            _super.apply(this, arguments);
+        }
+        return ExampleItem;
+    }(Item));
+    Minute.ExampleItem = ExampleItem;
 })(Minute || (Minute = {}));

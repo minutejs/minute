@@ -1,19 +1,20 @@
 ///<reference path="../../_all.d.ts"/>
 
 module Minute {
-    export var Models = {};
-    export var Loader: Function = () => {
+    export let Models = {};
+    export let Loader: Function = () => {
     };
 
     export class Item {
         private lastSave = '{}';
         private _data = {serialized: {}, dump: {}};
+
         public metadata = {};
 
         constructor(public parent: Items<Item> = null, public attrs: Array<string> = []) {
         }
 
-        attr = (name: string, value = void 0): Item => {
+        public attr = (name: string, value = void 0): Item => {
             if (value === void 0) {
                 return this[name];
             } else if (this.attrs.indexOf(name) !== -1) {
@@ -46,12 +47,12 @@ module Minute {
             }
         };
 
-        removeAttr = (name) => {
+        public removeAttr = (name) => {
             delete(this[name]);
             return this;
         };
 
-        getAttributes = () => {
+        public getAttributes = () => {
             let result = {};
 
             for (let attr of this.attrs) {
@@ -61,7 +62,7 @@ module Minute {
             return result;
         };
 
-        serialize = (ignoreUndefined = false, ignoreJoinKey = false): Object => {
+        public serialize = (ignoreUndefined = false, ignoreJoinKey = false): Object => {
             let serialized = {};
             let parent = this.parent;
 
@@ -101,7 +102,7 @@ module Minute {
             return Utils.copy(this._data.serialized, serialized);
         };
 
-        load = (data: Object) => {
+        public load = (data: Object) => {
             let loaded = false;
 
             for (let key in data) {
@@ -126,45 +127,45 @@ module Minute {
             return this;
         };
 
-        dirty = (): boolean => {
+        public dirty = (): boolean => {
             return JSON.stringify(this.serialize(true, true)) != this.lastSave;
         };
 
-        clone = (): Item => {
-            var data = JSON.parse(JSON.stringify(this.serialize()));
+        public clone = (): Item => {
+            let data = JSON.parse(JSON.stringify(this.serialize()));
 
-            ['created_at', this.parent.pk].forEach(function (key) {
+            ['created_at', this.parent.pk].forEach((key) => {
                 delete(data[key]);
             });
 
             return this.parent.create(data);
         };
 
-        save = (successMsg: string = void 0, failureMsg: string = void 0): Promise<Object> => {
+        public save = (successMsg: string = void 0, failureMsg: string = void 0): Promise<Object> => {
             let parent = this.getParentOrDie('save');
 
             return parent.saveAll(successMsg, failureMsg, this);
         };
 
-        remove = (successMsg: string = void 0, failureMsg: string = void 0): Promise<Object> => {
+        public remove = (successMsg: string = void 0, failureMsg: string = void 0): Promise<Object> => {
             let parent = this.getParentOrDie('remove');
 
             return parent.removeAll(successMsg, failureMsg, this);
         };
 
-        removeConfirm = (confirmTitle: string = void 0, confirmText: string = void 0, successMsg: string = void 0, failureMsg: string = void 0) => {
+        public removeConfirm = (confirmTitle: string = void 0, confirmText: string = void 0, successMsg: string = void 0, failureMsg: string = void 0) => {
             let parent = this.getParentOrDie('removeConfirm');
 
             return parent.removeConfirmAll(confirmTitle, confirmText, successMsg, failureMsg, this);
         };
 
-        reload = (): Promise<Object> => {
+        public reload = (): Promise<Object> => {
             let parent = this.getParentOrDie('reload');
 
             return parent.reloadAll(true, this);
         };
 
-        dump = () => {
+        public dump = () => {
             var result: any = this.serialize(true, true);
 
             for (var i in this) {
@@ -194,7 +195,7 @@ module Minute {
             super();
         }
 
-        create = (data = {}): T => {
+        public create = (data = {}): T => {
             let item: T = new this.itemType(this);
 
             this.push(item);
@@ -203,7 +204,7 @@ module Minute {
             return item;
         };
 
-        load = (data: { metadata: Metadata, items: Array<Object> }) => {
+        public load = (data: { metadata: Metadata, items: Array<Object> }) => {
             if (data) {
                 this.setMetadata(data.metadata || {}, false);
 
@@ -215,7 +216,7 @@ module Minute {
             return this;
         };
 
-        cloneItem = (item: T): T => {
+        public cloneItem = (item: T): T => {
             let copy = item.clone();
             let newItem = this.create(copy.serialize(true, true));
 
@@ -224,7 +225,8 @@ module Minute {
             return newItem;
         };
 
-        saveAll = (successMsg: string = void 0, failureMsg: string = void 0, selection: T | Array<T>): Promise<Object> => {
+        public saveAll = (successMsg: string = void 0, failureMsg: string = void 0, selection: T | Array<T>): Promise<Object> => {
+            console.log("this: ", this);
             let items = <Array<T>> (!selection ? this.toArray() : (selection instanceof Item ? [selection] : selection));
             let unsaved = this.filterItemsBy(items, this.pk, true);
             let delegate = new Delegator();
@@ -261,7 +263,7 @@ module Minute {
             return deferred.promise;
         };
 
-        removeAll = (successMsg: string = void 0, failureMsg: string = void 0, selection: T | Array<T>): Promise<Object> => {
+        public removeAll = (successMsg: string = void 0, failureMsg: string = void 0, selection: T | Array<T>): Promise<Object> => {
             let items = <Array<T>> (!selection ? this.toArray() : (selection instanceof Item ? [selection] : selection));
             let saved = this.filterItemsBy(items, this.pk, false);
 
@@ -290,7 +292,7 @@ module Minute {
             return deferred.promise;
         };
 
-        removeConfirmAll = (successMsg: string = void 0, failureMsg: string = void 0, confirmTitle: string = void 0, confirmText: string = void 0, selection: T | Array<T>): Promise<Object> => {
+        public removeConfirmAll = (successMsg: string = void 0, failureMsg: string = void 0, confirmTitle: string = void 0, confirmText: string = void 0, selection: T | Array<T>): Promise<Object> => {
             let items = <Array<T>> (!selection ? this.toArray() : (selection instanceof Item ? [selection] : selection));
             let delegate = new Delegator();
             let deferred = delegate.defer();
@@ -301,7 +303,7 @@ module Minute {
             return deferred.promise;
         };
 
-        reloadAll = (replace: boolean, singleItem: Item = null): Promise<Object> => {
+        public reloadAll = (replace: boolean, singleItem: Item = null): Promise<Object> => {
             let start = singleItem || this.parent;
             let metadataChain = Utils.keyValue(this.alias, this.metadata);
 
@@ -341,59 +343,59 @@ module Minute {
             return deferred.promise;
         };
 
-        getOffset = (): number => {
+        public getOffset = (): number => {
             return this.metadata.offset || 0;
         };
 
-        getTotalItems = (): number => {
+        public getTotalItems = (): number => {
             return this.metadata.total || 0;
         };
 
-        getItemsPerPage = (): number => {
+        public getItemsPerPage = (): number => {
             return this.metadata.limit || 1;
         };
 
-        getCurrentPage = (): number => {
+        public getCurrentPage = (): number => {
             return 1 + Math.floor(this.getOffset() / this.getItemsPerPage());
         };
 
-        getTotalPages = (): number => {
+        public getTotalPages = (): number => {
             return Math.ceil(this.getTotalItems() / this.getItemsPerPage());
         };
 
-        getOrder = (): string => {
+        public getOrder = (): string => {
             return (this.metadata.order || '').toLowerCase();
         };
 
-        getSearch = (): Search => {
+        public getSearch = (): Search => {
             return this.metadata.search || null;
         };
 
-        setItemsPerPage = (limit, reload: boolean = true) => {
+        public setItemsPerPage = (limit, reload: boolean = true) => {
             return this.setMetadata({limit: parseInt(limit)}, reload);
         };
 
-        setCurrentPage = (num, reload: boolean = true) => {
+        public setCurrentPage = (num, reload: boolean = true) => {
             let offset = Math.min(this.getTotalItems(), Math.max(0, (parseInt(num) - 1)) * this.getItemsPerPage());
             return this.setMetadata({offset: offset}, reload);
         };
 
-        setOrder = (order: string, reload: boolean = true) => {
+        public setOrder = (order: string, reload: boolean = true) => {
             return this.setMetadata({order: order}, reload);
         };
 
-        toggleOrder = (reload: boolean = true) => {
+        public toggleOrder = (reload: boolean = true) => {
             let matches = /(\w+)\s*(asc|desc)?/i.exec(this.getOrder() || this.pk);
             let newOrder = (matches[1] || this.pk) + ' ' + (/desc/i.test(matches[2]) ? 'asc' : 'desc');
 
             return this.setOrder(newOrder, reload);
         };
 
-        setSearch = (search: Search, reload: boolean = true) => { //operator also supports IN NATURAL LANGUAGE MODE op
+        public setSearch = (search: Search, reload: boolean = true) => { //operator also supports IN NATURAL LANGUAGE MODE op
             return this.setMetadata({offset: 0, search: search}, reload);
         };
 
-        setMetadata = (metadata: Metadata, reload: boolean) => {
+        public setMetadata = (metadata: Metadata, reload: boolean) => {
             let lastMetaData = JSON.stringify(this.metadata);
             let newMetaData = JSON.stringify(Utils.extend(this.metadata, metadata));
             let delegate = new Delegator();
@@ -408,11 +410,11 @@ module Minute {
             return deferred.promise;
         };
 
-        dump = () => {
+        public dump = () => {
             return this.map((item) => item.dump());
         };
 
-        loadPrevPage = (replace: boolean = true) => {
+        public loadPrevPage = (replace: boolean = true) => {
             if (this.hasLessPages()) {
                 this.setCurrentPage(this.getCurrentPage() - 1, replace);
             } else {
@@ -420,7 +422,7 @@ module Minute {
             }
         };
 
-        loadNextPage = (replace: boolean = true) => {
+        public loadNextPage = (replace: boolean = true) => {
             if (this.hasMorePages()) {
                 this.setCurrentPage(this.getCurrentPage() + 1, replace);
             } else {
@@ -428,26 +430,31 @@ module Minute {
             }
         };
 
-        hasMorePages = (): boolean => {
+        public hasMorePages = (): boolean => {
             return this.getCurrentPage() < this.getTotalPages();
         };
 
-        hasLessPages = (): boolean => {
+        public hasLessPages = (): boolean => {
             return this.getCurrentPage() > 1;
         };
 
-        private toArray(): Array<Item> { //javascript converts our class into object even though it "extends" an Array :(
+        private toArray = (): Array<Item> => { //javascript converts our class into object even though it "extends" an Array :(
             return this.map((item) => item);
-        }
+        };
 
-        private filterItemsBy(items: Array<Item>, attr: string, reverse: boolean): Array<Item> {
+        private filterItemsBy = (items: Array<Item>, attr: string, reverse: boolean): Array<Item> => {
             let filter = (item) => item.parent && !!item.attr(attr);
             return items.filter((item) => reverse ? !filter(item) : filter(item));
-        }
+        };
 
         /*private findChildrenBy(attr:string, value:any) {
          return value ? this.toArray().filter((item) => item.attr(attr) === value) : null;
          }*/
     }
 
+    export class ExampleArray<T extends Item> extends Items<T> {
+    }
+
+    export class ExampleItem extends Item {
+    }
 }
