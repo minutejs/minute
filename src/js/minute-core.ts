@@ -226,7 +226,6 @@ module Minute {
         };
 
         public saveAll = (successMsg: string = void 0, failureMsg: string = void 0, selection: T | Array<T>): Promise<Object> => {
-            console.log("this: ", this);
             let items = <Array<T>> (!selection ? this.toArray() : (selection instanceof Item ? [selection] : selection));
             let unsaved = this.filterItemsBy(items, this.pk, true);
             let delegate = new Delegator();

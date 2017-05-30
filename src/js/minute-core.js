@@ -225,7 +225,6 @@ var Minute;
             this.saveAll = function (successMsg, failureMsg, selection) {
                 if (successMsg === void 0) { successMsg = void 0; }
                 if (failureMsg === void 0) { failureMsg = void 0; }
-                console.log("this: ", _this);
                 var items = (!selection ? _this.toArray() : (selection instanceof Item ? [selection] : selection));
                 var unsaved = _this.filterItemsBy(items, _this.pk, true);
                 var delegate = new Minute.Delegator();
